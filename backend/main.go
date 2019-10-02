@@ -17,7 +17,7 @@ func main() {
 
 	log.Info("Starting the server on port ", port)
 	if err := http.ListenAndServe(":"+port, httpHandler); err != nil {
-		log.WithField("error",err).Error("Can't listen on port ", port)
+		log.WithField("error", err).Error("Can't listen on port ", port)
 	}
 }
 
