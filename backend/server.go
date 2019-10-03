@@ -12,7 +12,7 @@ import (
 type Server struct {
 	mongoClient *mongo.Client
 	db          *mongo.Database
-	mc          MatchCount
+	config      Config
 	mux         sync.Mutex
 }
 
@@ -33,7 +33,7 @@ func (s *Server) InitServer(dbName string) {
 	s.mongoClient = GetClient("mongodb://localhost:27017")
 	s.db = s.mongoClient.Database(dbName)
 	s.mux = sync.Mutex{}
-	GetLatestMatchCount()
+	GetConfig()
 	UpdateMatchCount()
 }
 

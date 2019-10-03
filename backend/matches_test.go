@@ -27,7 +27,7 @@ func TestAddMatch(t *testing.T) {
 
 func TestUpdateMatchCount(t *testing.T) {
 	s.InitServer("robowarsTest")
-	s.mc.Count = 0
+	s.config.MatchCount = 0
 	UpdateMatchCount()
 }
 

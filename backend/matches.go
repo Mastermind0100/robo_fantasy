@@ -4,7 +4,6 @@ import (
 	"context"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
-	"sync"
 )
 
 // MatchStatus return different codes for different match status
@@ -26,54 +25,28 @@ type Match struct {
 	Status   MatchStatus `json:"status"`
 }
 
-// MatchCount stores the information about the matches.
-type MatchCount struct {
-	Count        int
-	CurrentMatch int
-}
-
-func GetLatestMatchCount() {
-	matchCountCollection := s.db.Collection("MatchCount")
-	var mc MatchCount
-	res := matchCountCollection.FindOne(context.Background(), bson.D{})
-	if res.Err() != nil {
-		_, err := matchCountCollection.InsertOne(context.Background(), &mc)
-		if err != nil {
-			log.WithField("err", err).Error("Can't insert match count in database")
-		}
-		return
-	}
-	err := res.Decode(&mc)
-	if err != nil {
-		log.WithField("err", err).Error("Can't read matchcount document from the database")
-	}
-	s.mc = mc
-}
-
 func UpdateMatchCount() {
 
 	s.mux.Lock()
 	defer s.mux.Unlock()
 
-	matchCountCollection := s.db.Collection("MatchCount")
+	configCollection := s.db.Collection("config")
 	update := bson.D{{
 		"$set", bson.D{
-			{"count", s.mc.Count},
-			{"currentmatch", s.mc.CurrentMatch},
+			{"matchcount", s.config.MatchCount},
 		}}}
-	_, err := matchCountCollection.UpdateOne(context.Background(), bson.D{}, update)
+	_, err := configCollection.UpdateOne(context.Background(), bson.D{}, update)
 	if err != nil {
 		log.WithField("err", err).Error("Can't update match count in database")
 	}
 }
 
 func AddMatch(m Match) error {
-	mux := sync.Mutex{}
-	matchCollection := s.db.Collection("match")
-	mux.Lock()
-	s.mc.Count++
-	m.MatchID = s.mc.Count
-	mux.Unlock()
+	matchCollection := s.db.Collection("matches")
+	s.mux.Lock()
+	s.config.MatchCount++
+	m.MatchID = s.config.MatchCount
+	s.mux.Unlock()
 	UpdateMatchCount()
 	_, err := matchCollection.InsertOne(context.Background(), &m)
 	if err != nil {
@@ -84,7 +57,7 @@ func AddMatch(m Match) error {
 }
 
 func ReadMatch(id int) *Match {
-	matchCollection := s.db.Collection("match")
+	matchCollection := s.db.Collection("matches")
 	filter := bson.D{{"matchid", id}}
 	res := matchCollection.FindOne(context.Background(), filter)
 	if res.Err() != nil {
@@ -100,7 +73,7 @@ func ReadMatch(id int) *Match {
 }
 
 func UpdateMatch(m Match) error {
-	matchCollection := s.db.Collection("match")
+	matchCollection := s.db.Collection("matches")
 	filter := bson.D{{"matchid", m.MatchID}}
 	update := bson.D{{
 		"$set", bson.D{
@@ -120,7 +93,7 @@ func UpdateMatch(m Match) error {
 }
 
 func DeleteMatch(id int) error {
-	matchCollection := s.db.Collection("match")
+	matchCollection := s.db.Collection("matches")
 	filter := bson.D{{"matchid", id}}
 
 	_, err := matchCollection.DeleteOne(context.Background(), filter)
@@ -132,7 +105,7 @@ func DeleteMatch(id int) error {
 }
 
 func GetAllMatch() *[]Match {
-	matchCollection := s.db.Collection("match")
+	matchCollection := s.db.Collection("matches")
 	matches := make([]Match, 10)
 
 	res, err := matchCollection.Find(context.Background(), bson.D{})
