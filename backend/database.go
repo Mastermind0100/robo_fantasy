@@ -9,7 +9,7 @@ import (
 )
 
 func GetClient(cs string) *mongo.Client {
-	log.WithField("connection-string",cs).Info("Connecting to mongo-db")
+	log.WithField("connection-string", cs).Info("Connecting to mongo-db")
 	clientOptions := options.Client().ApplyURI(cs)
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
@@ -21,7 +21,7 @@ func GetClient(cs string) *mongo.Client {
 
 func DisconnectClient(client *mongo.Client) {
 	err := client.Disconnect(context.Background())
-	if err == nil{
+	if err == nil {
 		log.Info("MongoDB disconnected")
 	}
 }

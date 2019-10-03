@@ -12,7 +12,7 @@ var s Server
 
 func main() {
 	initLog()
-	s.InitServer()
+	s.InitServer("robowars")
 
 	go func() {
 		port := os.Getenv("PORT")
@@ -26,11 +26,11 @@ func main() {
 		if err := http.ListenAndServe(":"+port, httpHandler); err != nil {
 			log.WithField("error", err).Error("Can't listen on port ", port)
 		}
-	}()   //Starts the server
+	}() //Starts the server
 
 	signalChannel := make(chan os.Signal)
 
-	signal.Notify(signalChannel,os.Interrupt,os.Kill,syscall.SIGTERM)
+	signal.Notify(signalChannel, os.Interrupt, os.Kill, syscall.SIGTERM)
 	<-signalChannel
 	log.Info("Gracefully Shutting down the server")
 	s.Shutdown()

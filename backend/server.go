@@ -11,9 +11,9 @@ import (
 
 type Server struct {
 	mongoClient *mongo.Client
-	db *mongo.Database
-	mc MatchCount
-	mux sync.Mutex
+	db          *mongo.Database
+	mc          MatchCount
+	mux         sync.Mutex
 }
 
 //getRouter returns the router with all handlers attached
@@ -29,9 +29,9 @@ func getHandler() http.Handler {
 	return handler
 }
 
-func (s *Server) InitServer() {
+func (s *Server) InitServer(dbName string) {
 	s.mongoClient = GetClient("mongodb://localhost:27017")
-	s.db = s.mongoClient.Database("robowars")
+	s.db = s.mongoClient.Database(dbName)
 	s.mux = sync.Mutex{}
 	GetLatestMatchCount()
 	UpdateMatchCount()
