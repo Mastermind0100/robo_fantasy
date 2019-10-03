@@ -83,7 +83,7 @@ func ReadBot(id int) *Bot {
 }
 
 func GetAllBots() *[]Bot {
-	var bots *[]Bot
+	bots := make([]Bot, 10)
 
 	botsCollection := s.db.Collection("bots")
 
@@ -93,13 +93,13 @@ func GetAllBots() *[]Bot {
 		return nil
 	}
 
-	err := res.All(context.Background(), res)
+	err := res.All(context.Background(), &bots)
 	if err != nil {
 		log.WithField("err", err).Error("Can't decode the bots in the bot collection")
 		return nil
 	}
 
-	return bots
+	return &bots
 }
 
 func UpdateBot(bot Bot) error {
