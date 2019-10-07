@@ -4,21 +4,36 @@ import (
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 )
+
+var s Server
 
 func main() {
 	initLog()
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	s.InitServer("robowars")
 
-	httpHandler := getHandler()
+	go func() {
+		port := os.Getenv("PORT")
+		if port == "" {
+			port = "8080"
+		}
 
-	log.Info("Starting the server on port ", port)
-	if err := http.ListenAndServe(":"+port, httpHandler); err != nil {
-		log.WithField("error", err).Error("Can't listen on port ", port)
-	}
+		httpHandler := getHandler()
+
+		log.Info("Starting the server on port ", port)
+		if err := http.ListenAndServe(":"+port, httpHandler); err != nil {
+			log.WithField("error", err).Error("Can't listen on port ", port)
+		}
+	}() //Starts the server
+
+	signalChannel := make(chan os.Signal)
+
+	signal.Notify(signalChannel, os.Interrupt, os.Kill, syscall.SIGTERM)
+	<-signalChannel
+	log.Info("Gracefully Shutting down the server")
+	s.Shutdown()
 }
 
 func initLog() {
