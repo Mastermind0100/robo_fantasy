@@ -64,10 +64,10 @@ func AddUser(u *User, p string) error {
 	return nil
 }
 
-func getUserByUsername(username string) *AuthUser {
+func GetUserByUsername(username string) *AuthUser {
 	ciUsername := string(bytes.ToUpper([]byte(username)))
 
-	filter := bson.D{{"userdetails", bson.D{{"ciusername", ciUsername}}}}
+	filter := bson.D{{"userdetails.ciusername", ciUsername}}
 
 	userCollection := s.db.Collection("users")
 
@@ -87,16 +87,37 @@ func getUserByUsername(username string) *AuthUser {
 	return &au
 }
 
-func updateUser(au *AuthUser) error {
+func GetUserByEmail(email string) *AuthUser {
+	//ciUsername := string(bytes.ToUpper([]byte(username)))
+
+	filter := bson.D{{"userdetails.email", email}}
 
 	userCollection := s.db.Collection("users")
-	filter := bson.D{{"userdetails", bson.D{{"username", au.UserDetails.CIUsername}}}}
 
+	res := userCollection.FindOne(context.Background(), filter)
+
+	if res.Err() != nil {
+		log.WithField("err", res.Err()).Error("Error in getting details for email: ", email)
+		return nil
+	}
+	au := AuthUser{}
+
+	err := res.Decode(&au)
+	if err != nil {
+		log.WithField("err", err).Error("Error in decoding details for email: ", email)
+		return nil
+	}
+	return &au
+}
+
+func UpdateUser(au *AuthUser) error {
+
+	userCollection := s.db.Collection("users")
+	filter := bson.D{{"userdetails.ciusername", au.UserDetails.CIUsername}}
+	print(au.UserDetails.CIUsername)
 	update := bson.D{{"$set", bson.D{
-		{"userdetails", bson.D{
-			{"firstname", au.UserDetails.FirstName},
-			{"lastname", au.UserDetails.LastName},
-		}},
+		{"userdetails.firstname", au.UserDetails.FirstName},
+		{"userdetails.lastname", au.UserDetails.LastName},
 		{"password", au.Password},
 	}}}
 
