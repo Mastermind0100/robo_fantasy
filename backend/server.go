@@ -16,6 +16,10 @@ type Server struct {
 	mux         sync.Mutex
 }
 
+func DemoFuncHandler(w http.ResponseWriter, req *http.Request) {
+	_, _ = w.Write([]byte("hello"))
+}
+
 //getRouter returns the router with all handlers attached
 func getHandler() http.Handler {
 	router := mux.NewRouter()
@@ -24,6 +28,35 @@ func getHandler() http.Handler {
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Origin"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
+
+	//Operation Related to user
+	router.HandleFunc("/user/new", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/user/change", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/user/change/password", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/user/login", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/user/{username}/details", DemoFuncHandler).Methods("GET")
+
+	//Operations Related to mathches
+	router.HandleFunc("/match/new", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/match/{id}/edit", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/match/{id}/delete", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/match/{id}/details", DemoFuncHandler).Methods("GET")
+	router.HandleFunc("/match/{id}/status", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/match/all", DemoFuncHandler).Methods("GET")
+	router.HandleFunc("/match/upcoming", DemoFuncHandler).Methods("GET")
+
+	//Operations Related to Bots
+	router.HandleFunc("/bot/new", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/bot/{id}/edit", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/bot/{id}/delete", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/bot/all", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/bot/{id}/details", DemoFuncHandler).Methods("POST")
+
+	//Operations Related to Betting
+	router.HandleFunc("/bet", DemoFuncHandler).Methods("POST")
+
+	//For LiveLeader board websocket
+	router.HandleFunc("/leaderboard", DemoFuncHandler).Methods("GET")
 
 	handler := handlers.CORS(headersOk, originsOk, methodsOk)(router)
 	return handler
