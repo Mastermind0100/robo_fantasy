@@ -94,6 +94,7 @@ package main
 
 /**
 @api {post} /bot/new Create a new bot
+@apiGroup Bots
 
 @apiParam  {String} name Bot name
 @apiParam  {Team} team Team name
@@ -107,12 +108,14 @@ package main
 
 /**
 @api {get} /bot/:id/delete Delete a bot
+@apiGroup Bots
 
 @apiSuccess {Number=0,1} status Status 0:Sucess, 1:error
 */
 
 /**
 @api {get} /bot/all get details for all the bots
+@apiGroup Bots
 
 @apiSuccess {Number=0,1} status Status 0:Success, 1:error
 @apiSuccess {Object[]} data Details of all the bots structure like the single bot
@@ -120,6 +123,7 @@ package main
 
 /**
 @api {get} /bot/:id get detail for a bot id
+@apiGroup Bots
 
 @apiSuccess {Number=0,1} status Status 0:Success, 1:error
 
