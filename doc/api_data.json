@@ -175,9 +175,150 @@
     "name": "PostBotNew"
   },
   {
+    "type": "get",
+    "url": "/match/all",
+    "title": "Get All match details",
+    "group": "Matches",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "allowedValues": [
+              "0",
+              "1"
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>Status 0:Success, 1:error</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Single bot response:",
+          "content": "{ \"status\":0,\n\t\"data\":[{\"id\":1,\"red\":\"red-team name\",\n\t\t\t\"blue\":\"blue-team name\", \"status\":0,\n\t\t\t\"category\":15}]}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "Matches",
+    "name": "GetMatchAll"
+  },
+  {
+    "type": "get",
+    "url": "/match/:id/delete",
+    "title": "Delete a match of an id",
+    "group": "Matches",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "allowedValues": [
+              "0",
+              "1"
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>Status 0:Success, 1:error</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "Matches",
+    "name": "GetMatchIdDelete"
+  },
+  {
+    "type": "get",
+    "url": "/match/{id}/details",
+    "title": "Get Detail of a match using id",
+    "group": "Matches",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "allowedValues": [
+              "0",
+              "1"
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>Status 0:Success, 1:error</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Single bot response:",
+          "content": "{ \"status\":0,\n\t\"data\":{\"id\":1,\"red\":\"red-team name\",\n\t\t\t\"blue\":\"blue-team name\", \"status\":0,\n\t\t\t\"category\":15}}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "Matches",
+    "name": "GetMatchIdDetails"
+  },
+  {
+    "type": "post",
+    "url": "/match/:id/status",
+    "title": "Update status of the matches",
+    "group": "Matches",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "allowedValues": [
+              "0",
+              "1",
+              "2",
+              "3"
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>0:upcoming, 1:red won, 2:blue won, 3: draw</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "allowedValues": [
+              "0",
+              "1"
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>Status 0:Success, 1:error</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "Matches",
+    "name": "PostMatchIdStatus"
+  },
+  {
     "type": "post",
     "url": "/match/new",
-    "title": "",
+    "title": "Add a new Match",
     "group": "Matches",
     "parameter": {
       "fields": {
@@ -552,15 +693,5 @@
     "filename": "./docs.go",
     "groupTitle": "User",
     "name": "PostUserNew"
-  },
-  {
-    "type": "get",
-    "url": "/match/:id/delete",
-    "title": "",
-    "version": "0.0.0",
-    "filename": "./docs.go",
-    "group": "_home_anshuman_projects_robovitics_robo_fantasy_backend_docs_go",
-    "groupTitle": "_home_anshuman_projects_robovitics_robo_fantasy_backend_docs_go",
-    "name": "GetMatchIdDelete"
   }
 ]

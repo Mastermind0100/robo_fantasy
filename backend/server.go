@@ -38,14 +38,14 @@ func getHandler() http.Handler {
 	router.HandleFunc("/user/login", PostUserLogin).Methods("POST")
 	router.HandleFunc("/user/{username}/details", GetUserDetails).Methods("GET")
 
-	//Operations Related to mathches
+	//Operations Related to matches
 	router.HandleFunc("/match/new", PostMatchNew).Methods("POST")
 	router.HandleFunc("/match/{id}/edit", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/match/{id}/delete", GetMatchDelete).Methods("GET")
 	router.HandleFunc("/match/{id}/status", PostMatchStatus).Methods("POST")
-	router.HandleFunc("/match/{id}/details", DemoFuncHandler).Methods("GET")
-	router.HandleFunc("/match/all", DemoFuncHandler).Methods("GET")
-	router.HandleFunc("/match/display", DemoFuncHandler).Methods("GET")
+	router.HandleFunc("/match/{id}/details", GetMatchIdDetails).Methods("GET")
+	router.HandleFunc("/match/all", GetMatchAll).Methods("GET")
+	router.HandleFunc("/match/display", DemoFuncHandler).Methods("GET") //TODO: Implement this functionality 4 matches previous,current and next
 
 	//Operations Related to Bots
 	router.HandleFunc("/bot/new", PostBotNew).Methods("POST")

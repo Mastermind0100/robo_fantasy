@@ -137,7 +137,7 @@ package main
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-@api {post} /match/new
+@api {post} /match/new Add a new Match
 @apiGroup Matches
 
 @apiParam {String} blue Blue Bot name
@@ -151,17 +151,43 @@ package main
 */
 
 /**
-@api {get} /match/:id/delete
+@api {get} /match/:id/delete Delete a match of an id
 @apiGroup Matches
 
 @apiSuccess {Number=0,1} status Status 0:Success, 1:error
 */
 
 /**
-@api {post} /match/:id/status
+@api {post} /match/:id/status Update status of the matches
 @apiGroup Matches
 
 @apiParam {Number=0,1,2,3} status 0:upcoming, 1:red won, 2:blue won, 3: draw
 
 @apiSuccess {Number=0,1} status Status 0:Success, 1:error
+*/
+
+/**
+@api {get} /match/{id}/details Get Detail of a match using id
+@apiGroup Matches
+@apiSuccess {Number=0,1} status Status 0:Success, 1:error
+
+@apiSuccessParam {Number} data-status 0:upcoming, 1:red won, 2:blue won, 3: draw
+@apiSuccessExample {json} Single bot response:
+	{ "status":0,
+		"data":{"id":1,"red":"red-team name",
+				"blue":"blue-team name", "status":0,
+				"category":15}}
+*/
+
+/**
+@api {get} /match/all Get All match details
+@apiGroup Matches
+
+@apiSuccess {Number=0,1} status Status 0:Success, 1:error
+@apiSuccessParam {Object[]} data
+@apiSuccessExample {json} Single bot response:
+	{ "status":0,
+		"data":[{"id":1,"red":"red-team name",
+				"blue":"blue-team name", "status":0,
+				"category":15}]}
 */

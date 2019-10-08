@@ -11,7 +11,7 @@ func TestAddBot(t *testing.T) {
 		Category:    Sixty,
 		Description: "test bot 1",
 		Youtube:     "no",
-		Image:       []byte("no"),
+		Image:       "no",
 	}
 	bot2 := Bot{
 		BotID:       0,
@@ -20,7 +20,7 @@ func TestAddBot(t *testing.T) {
 		Category:    Thirty,
 		Description: "test bot 2",
 		Youtube:     "no",
-		Image:       []byte("no"),
+		Image:       "no",
 	}
 	_ = AddBot(bot1)
 	err := AddBot(bot2)

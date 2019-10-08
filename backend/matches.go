@@ -247,3 +247,63 @@ func PostMatchStatus(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(p)
 	return
 }
+
+type SingleMatchResponse struct {
+	Status int   `json:"status"`
+	Data   Match `json:"data"`
+}
+
+func GetMatchIdDetails(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	i := vars["id"]
+	id, err := strconv.Atoi(i)
+
+	var res SingleMatchResponse
+
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	d := ReadMatch(id)
+	if d == nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	res.Status = 0
+	res.Data = *d
+
+	p, _ := json.Marshal(&res)
+	_, _ = w.Write(p)
+	return
+}
+
+type AllMatchResponse struct {
+	Status int     `json:"status"`
+	Data   []Match `json:"data"`
+}
+
+func GetMatchAll(w http.ResponseWriter, r *http.Request) {
+
+	var res AllMatchResponse
+
+	d := GetAllMatch()
+	if d == nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	res.Status = 0
+	res.Data = *d
+
+	p, _ := json.Marshal(&res)
+	_, _ = w.Write(p)
+	return
+}
