@@ -152,4 +152,16 @@ package main
 
 /**
 @api {get} /match/:id/delete
+@apiGroup Matches
+
+@apiSuccess {Number=0,1} status Status 0:Success, 1:error
+*/
+
+/**
+@api {post} /match/:id/status
+@apiGroup Matches
+
+@apiParam {Number=0,1,2,3} status 0:upcoming, 1:red won, 2:blue won, 3: draw
+
+@apiSuccess {Number=0,1} status Status 0:Success, 1:error
 */

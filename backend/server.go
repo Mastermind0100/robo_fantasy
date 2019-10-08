@@ -17,8 +17,9 @@ type Server struct {
 	signingKey  []byte
 }
 
-func DemoFuncHandler(w http.ResponseWriter, req *http.Request) {
-	_, _ = w.Write([]byte("hello"))
+func DemoFuncHandler(w http.ResponseWriter, _ *http.Request) {
+	_, _ = w.Write([]byte(`hello, this functions hasn't been implemented` +
+		`but we plan to implement it in the future`))
 }
 
 //getRouter returns the router with all handlers attached
@@ -40,11 +41,11 @@ func getHandler() http.Handler {
 	//Operations Related to mathches
 	router.HandleFunc("/match/new", PostMatchNew).Methods("POST")
 	router.HandleFunc("/match/{id}/edit", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/match/{id}/delete", DemoFuncHandler).Methods("GET")
+	router.HandleFunc("/match/{id}/delete", GetMatchDelete).Methods("GET")
+	router.HandleFunc("/match/{id}/status", PostMatchStatus).Methods("POST")
 	router.HandleFunc("/match/{id}/details", DemoFuncHandler).Methods("GET")
-	router.HandleFunc("/match/{id}/status", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/match/all", DemoFuncHandler).Methods("GET")
-	router.HandleFunc("/match/upcoming", DemoFuncHandler).Methods("GET")
+	router.HandleFunc("/match/display", DemoFuncHandler).Methods("GET")
 
 	//Operations Related to Bots
 	router.HandleFunc("/bot/new", PostBotNew).Methods("POST")
