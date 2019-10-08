@@ -233,7 +233,7 @@ func PostMatchStatus(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write(p)
 		return
 	}
-	err := UpdateStatus(id, MatchStatus(status))
+	err = UpdateStatus(id, MatchStatus(status))
 
 	if err != nil {
 		res.Status = 1
