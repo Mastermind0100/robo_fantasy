@@ -1,6 +1,6 @@
 package main
 
-//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
 * @api {post} 	/user/new Register a new user
 * @apiGroup User
@@ -90,7 +90,7 @@ package main
 * @apiSuccess {Number} points points
 */
 
-/////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
 @api {post} /bot/new Create a new bot
@@ -129,7 +129,27 @@ package main
 
 @apiSuccessExample {json} Single bot response:
 	{ "status":0,
-		"data":{"name":"bot-name","team":"team-name",
+		"data":{"id":1,"name":"bot-name","team":"team-name",
 				"category":15, "description":"bot-description",
 				"video":"video link","img":"image-link"}}
+*/
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+@api {post} /match/new
+@apiGroup Matches
+
+@apiParam {String} blue Blue Bot name
+@apiParam {String} red Red Bot name
+@apiParam {Number=15,30,60} category Category
+@apiParam {Number{0-4}} [status] 0:upcoming, 1:red, 2:blue, 3:draw, if no params given upcoming
+
+
+
+@apiSuccess {Number=0,1} status Status 0:Success, 1:error
+*/
+
+/**
+@api {get} /match/:id/delete
 */

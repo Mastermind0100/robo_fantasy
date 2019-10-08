@@ -38,9 +38,9 @@ func getHandler() http.Handler {
 	router.HandleFunc("/user/{username}/details", GetUserDetails).Methods("GET")
 
 	//Operations Related to mathches
-	router.HandleFunc("/match/new", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/match/new", PostMatchNew).Methods("POST")
 	router.HandleFunc("/match/{id}/edit", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/match/{id}/delete", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/match/{id}/delete", DemoFuncHandler).Methods("GET")
 	router.HandleFunc("/match/{id}/details", DemoFuncHandler).Methods("GET")
 	router.HandleFunc("/match/{id}/status", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/match/all", DemoFuncHandler).Methods("GET")
