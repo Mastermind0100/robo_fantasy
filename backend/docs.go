@@ -82,6 +82,7 @@ package main
 * @apiGroup User
 *
 * @apiSuccess {Number{0-2}} status 0 : success,
+									1: user not found
                                   2 : unknown err
 * @apiSuccess {String} firstname First Name
 * @apiSuccess {String} lastname Last Name
@@ -90,3 +91,41 @@ package main
 */
 
 /////////////////////////////////////////////////////////////////////////
+
+/**
+@api {post} /bot/new Create a new bot
+
+@apiParam  {String} name Bot name
+@apiParam  {Team} team Team name
+@apiParam {Number=15,30,60} category Category
+@apiParam {String} description Description
+@apiParam {String} video Youtube link
+@apiParam {String} image Image Link
+
+@apiSuccess {Number=0,1} status Status 0:Sucess, 1:error
+*/
+
+/**
+@api {get} /bot/:id/delete Delete a bot
+
+@apiSuccess {Number=0,1} status Status 0:Sucess, 1:error
+*/
+
+/**
+@api {get} /bot/all get details for all the bots
+
+@apiSuccess {Number=0,1} status Status 0:Success, 1:error
+@apiSuccess {Object[]} data Details of all the bots structure like the single bot
+*/
+
+/**
+@api {get} /bot/:id get detail for a bot id
+
+@apiSuccess {Number=0,1} status Status 0:Success, 1:error
+
+@apiSuccessExample {json} Single bot response:
+	{ "status":0,
+		"data":{"name":"bot-name","team":"team-name",
+				"category":15, "description":"bot-description",
+				"video":"video link","img":"image-link"}}
+*/

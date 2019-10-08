@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
@@ -149,6 +150,14 @@ type LoginResponse struct {
 	Token  string `json:"token"`
 }
 
+type UserDetailsResponse struct {
+	Status    int    `json:"status"`
+	FirstName string `json:"firstname"`
+	LastName  string `json:"lastname"`
+	Email     string `json:"email"`
+	Points    int    `json:"points"`
+}
+
 func PostUserNew(w http.ResponseWriter, r *http.Request) {
 	firstName := r.FormValue("firstname")
 	lastName := r.FormValue("lastname")
@@ -264,6 +273,32 @@ func PostUserLogin(w http.ResponseWriter, r *http.Request) {
 	p, _ := json.Marshal(&res)
 	_, _ = w.Write(p)
 	return
+}
+
+func GetUserDetails(w http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	username := vars["username"]
+	au := GetUserByUsername(username)
+	var res UserDetailsResponse
+	if au == nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+	res.Email = au.UserDetails.Email
+	res.FirstName = au.UserDetails.FirstName
+	res.LastName = au.UserDetails.LastName
+	res.Points = GetPoints()
+
+	res.Status = 0
+	p, _ := json.Marshal(&res)
+	_, _ = w.Write(p)
+	return
+}
+
+func GetPoints() int { //TODO: Implement the points system, Write crud for predictions
+	return 0
 }
 
 func GetToken(user User) string {

@@ -35,7 +35,7 @@ func getHandler() http.Handler {
 	router.HandleFunc("/user/change", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/user/change/password", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/user/login", PostUserLogin).Methods("POST")
-	router.HandleFunc("/user/{username}/details", DemoFuncHandler).Methods("GET")
+	router.HandleFunc("/user/{username}/details", GetUserDetails).Methods("GET")
 
 	//Operations Related to mathches
 	router.HandleFunc("/match/new", DemoFuncHandler).Methods("POST")
@@ -47,11 +47,11 @@ func getHandler() http.Handler {
 	router.HandleFunc("/match/upcoming", DemoFuncHandler).Methods("GET")
 
 	//Operations Related to Bots
-	router.HandleFunc("/bot/new", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/bot/new", PostBotNew).Methods("POST")
 	router.HandleFunc("/bot/{id}/edit", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/bot/{id}/delete", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/bot/all", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/bot/{id}/details", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/bot/{id}/delete", GetBotDelete).Methods("GET")
+	router.HandleFunc("/bot/all", GetBotAll).Methods("GET")
+	router.HandleFunc("/bot/{id}", GetBotID).Methods("GET")
 
 	//Operations Related to Betting
 	router.HandleFunc("/bet", DemoFuncHandler).Methods("POST")
