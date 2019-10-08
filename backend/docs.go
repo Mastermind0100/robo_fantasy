@@ -71,6 +71,7 @@ package main
 *		  "password":"anshu123"}
 *
 * @apiSuccess {Number{0-2}} status 0 : success,
+									1: username/email password mismatch,
                                   2 : unknown err
 * @apiSuccess {String} token JWT Auth token to be saved and pass for further requests
 *

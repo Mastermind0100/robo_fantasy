@@ -211,6 +211,61 @@ func PostUserNew(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func PostUserLogin(w http.ResponseWriter, r *http.Request) {
+	email := r.FormValue("email")
+	username := r.FormValue("username")
+	password := r.FormValue("password")
+	var res LoginResponse
+
+	if email == "" && username == "" {
+		res.Status = 2
+		res.Token = ""
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	var au *AuthUser
+	if email != "" {
+		au = GetUserByEmail(email)
+	}
+	if username != "" {
+		au = GetUserByUsername(username)
+	}
+	if au == nil {
+		res.Status = 2
+		res.Token = ""
+		log.Error("No users found")
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+	err := bcrypt.CompareHashAndPassword([]byte(au.Password), []byte(password))
+	if err != nil {
+		res.Status = 1
+		res.Token = ""
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	token := GetToken(au.UserDetails)
+	if token == "" {
+		res.Status = 2
+		res.Token = ""
+		log.Error("Error in getting token")
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	res.Status = 0
+	res.Token = token
+	p, _ := json.Marshal(&res)
+	_, _ = w.Write(p)
+	return
+}
+
 func GetToken(user User) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &user)
 	ss, err := token.SignedString(s.signingKey)

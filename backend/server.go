@@ -34,7 +34,7 @@ func getHandler() http.Handler {
 	router.HandleFunc("/user/new", PostUserNew).Methods("POST")
 	router.HandleFunc("/user/change", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/user/change/password", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/user/login", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/user/login", PostUserLogin).Methods("POST")
 	router.HandleFunc("/user/{username}/details", DemoFuncHandler).Methods("GET")
 
 	//Operations Related to mathches
