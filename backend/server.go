@@ -14,6 +14,7 @@ type Server struct {
 	db          *mongo.Database
 	config      Config
 	mux         sync.Mutex
+	signingKey  []byte
 }
 
 func DemoFuncHandler(w http.ResponseWriter, req *http.Request) {
@@ -30,27 +31,27 @@ func getHandler() http.Handler {
 	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
 
 	//Operation Related to user
-	router.HandleFunc("/user/new", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/user/new", PostUserNew).Methods("POST")
 	router.HandleFunc("/user/change", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/user/change/password", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/user/login", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/user/{username}/details", DemoFuncHandler).Methods("GET")
+	router.HandleFunc("/user/login", PostUserLogin).Methods("POST")
+	router.HandleFunc("/user/{username}/details", GetUserDetails).Methods("GET")
 
 	//Operations Related to mathches
-	router.HandleFunc("/match/new", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/match/new", PostMatchNew).Methods("POST")
 	router.HandleFunc("/match/{id}/edit", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/match/{id}/delete", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/match/{id}/delete", DemoFuncHandler).Methods("GET")
 	router.HandleFunc("/match/{id}/details", DemoFuncHandler).Methods("GET")
 	router.HandleFunc("/match/{id}/status", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/match/all", DemoFuncHandler).Methods("GET")
 	router.HandleFunc("/match/upcoming", DemoFuncHandler).Methods("GET")
 
 	//Operations Related to Bots
-	router.HandleFunc("/bot/new", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/bot/new", PostBotNew).Methods("POST")
 	router.HandleFunc("/bot/{id}/edit", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/bot/{id}/delete", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/bot/all", DemoFuncHandler).Methods("POST")
-	router.HandleFunc("/bot/{id}/details", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/bot/{id}/delete", GetBotDelete).Methods("GET")
+	router.HandleFunc("/bot/all", GetBotAll).Methods("GET")
+	router.HandleFunc("/bot/{id}", GetBotID).Methods("GET")
 
 	//Operations Related to Betting
 	router.HandleFunc("/bet", DemoFuncHandler).Methods("POST")
@@ -66,6 +67,7 @@ func (s *Server) InitServer(dbName string) {
 	s.mongoClient = GetClient("mongodb://localhost:27017")
 	s.db = s.mongoClient.Database(dbName)
 	s.mux = sync.Mutex{}
+	s.signingKey = []byte("achhapolia10")
 	GetConfig()
 	UpdateMatchCount()
 }

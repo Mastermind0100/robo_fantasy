@@ -1,6 +1,6 @@
 package main
 
-//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
 * @api {post} 	/user/new Register a new user
 * @apiGroup User
@@ -71,16 +71,18 @@ package main
 *		  "password":"anshu123"}
 *
 * @apiSuccess {Number{0-2}} status 0 : success,
+									1: username/email password mismatch,
                                   2 : unknown err
 * @apiSuccess {String} token JWT Auth token to be saved and pass for further requests
 *
 */
 
 /**
-* @api {get} 	/user/:username/details Register a new user
+* @api {get} 	/user/:username/details Get details of the user
 * @apiGroup User
 *
 * @apiSuccess {Number{0-2}} status 0 : success,
+									1: user not found
                                   2 : unknown err
 * @apiSuccess {String} firstname First Name
 * @apiSuccess {String} lastname Last Name
@@ -88,5 +90,66 @@ package main
 * @apiSuccess {Number} points points
 */
 
-/////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+@api {post} /bot/new Create a new bot
+@apiGroup Bots
+
+@apiParam  {String} name Bot name
+@apiParam  {Team} team Team name
+@apiParam {Number=15,30,60} category Category
+@apiParam {String} description Description
+@apiParam {String} video Youtube link
+@apiParam {String} image Image Link
+
+@apiSuccess {Number=0,1} status Status 0:Sucess, 1:error
+*/
+
+/**
+@api {get} /bot/:id/delete Delete a bot
+@apiGroup Bots
+
+@apiSuccess {Number=0,1} status Status 0:Sucess, 1:error
+*/
+
+/**
+@api {get} /bot/all get details for all the bots
+@apiGroup Bots
+
+@apiSuccess {Number=0,1} status Status 0:Success, 1:error
+@apiSuccess {Object[]} data Details of all the bots structure like the single bot
+*/
+
+/**
+@api {get} /bot/:id get detail for a bot id
+@apiGroup Bots
+
+@apiSuccess {Number=0,1} status Status 0:Success, 1:error
+
+@apiSuccessExample {json} Single bot response:
+	{ "status":0,
+		"data":{"id":1,"name":"bot-name","team":"team-name",
+				"category":15, "description":"bot-description",
+				"video":"video link","img":"image-link"}}
+*/
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+@api {post} /match/new
+@apiGroup Matches
+
+@apiParam {String} blue Blue Bot name
+@apiParam {String} red Red Bot name
+@apiParam {Number=15,30,60} category Category
+@apiParam {Number{0-4}} [status] 0:upcoming, 1:red, 2:blue, 3:draw, if no params given upcoming
+
+
+
+@apiSuccess {Number=0,1} status Status 0:Success, 1:error
+*/
+
+/**
+@api {get} /match/:id/delete
+*/

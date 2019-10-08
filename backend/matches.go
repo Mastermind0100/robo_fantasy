@@ -2,8 +2,11 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
+	"net/http"
+	"strconv"
 )
 
 // MatchStatus return different codes for different match status
@@ -133,3 +136,41 @@ func UpdateStatus(id int, status MatchStatus) error {
 	}
 	return nil
 }
+
+type MatchResponse struct {
+	Status int `json:"status"`
+}
+
+func PostMatchNew(w http.ResponseWriter, r *http.Request) {
+	cat := r.FormValue("category")
+	category, err := strconv.Atoi(cat)
+
+	var res MatchResponse
+
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	match := Match{
+		BlueTeam: r.FormValue("blue"),
+		RedTeam:  r.FormValue("red"),
+		Category: Categories(category),
+		Status:   StatusUpcoming,
+	}
+
+	err = AddMatch(match)
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+	res.Status = 0
+	p, _ := json.Marshal(&res)
+	_, _ = w.Write(p)
+	return
+}
+

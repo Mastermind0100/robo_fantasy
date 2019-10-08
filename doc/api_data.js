@@ -1,8 +1,250 @@
 define({ "api": [
   {
     "type": "get",
+    "url": "/bot/all",
+    "title": "get details for all the bots",
+    "group": "Bots",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "allowedValues": [
+              "0",
+              "1"
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>Status 0:Success, 1:error</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Details of all the bots structure like the single bot</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "Bots",
+    "name": "GetBotAll"
+  },
+  {
+    "type": "get",
+    "url": "/bot/:id",
+    "title": "get detail for a bot id",
+    "group": "Bots",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "allowedValues": [
+              "0",
+              "1"
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>Status 0:Success, 1:error</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Single bot response:",
+          "content": "{ \"status\":0,\n\t\"data\":{\"id\":1,\"name\":\"bot-name\",\"team\":\"team-name\",\n\t\t\t\"category\":15, \"description\":\"bot-description\",\n\t\t\t\"video\":\"video link\",\"img\":\"image-link\"}}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "Bots",
+    "name": "GetBotId"
+  },
+  {
+    "type": "get",
+    "url": "/bot/:id/delete",
+    "title": "Delete a bot",
+    "group": "Bots",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "allowedValues": [
+              "0",
+              "1"
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>Status 0:Sucess, 1:error</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "Bots",
+    "name": "GetBotIdDelete"
+  },
+  {
+    "type": "post",
+    "url": "/bot/new",
+    "title": "Create a new bot",
+    "group": "Bots",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Bot name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Team",
+            "optional": false,
+            "field": "team",
+            "description": "<p>Team name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "allowedValues": [
+              "15",
+              "30",
+              "60"
+            ],
+            "optional": false,
+            "field": "category",
+            "description": "<p>Category</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "description",
+            "description": "<p>Description</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "video",
+            "description": "<p>Youtube link</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "image",
+            "description": "<p>Image Link</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "allowedValues": [
+              "0",
+              "1"
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>Status 0:Sucess, 1:error</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "Bots",
+    "name": "PostBotNew"
+  },
+  {
+    "type": "post",
+    "url": "/match/new",
+    "title": "",
+    "group": "Matches",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "blue",
+            "description": "<p>Blue Bot name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "red",
+            "description": "<p>Red Bot name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "allowedValues": [
+              "15",
+              "30",
+              "60"
+            ],
+            "optional": false,
+            "field": "category",
+            "description": "<p>Category</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "size": "0-4",
+            "optional": true,
+            "field": "status",
+            "description": "<p>0:upcoming, 1:red, 2:blue, 3:draw, if no params given upcoming</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "allowedValues": [
+              "0",
+              "1"
+            ],
+            "optional": false,
+            "field": "status",
+            "description": "<p>Status 0:Success, 1:error</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "Matches",
+    "name": "PostMatchNew"
+  },
+  {
+    "type": "get",
     "url": "/user/:username/details",
-    "title": "Register a new user",
+    "title": "Get details of the user",
     "group": "User",
     "success": {
       "fields": {
@@ -13,7 +255,7 @@ define({ "api": [
             "size": "0-2",
             "optional": false,
             "field": "status",
-            "description": "<p>0 : success, 2 : unknown err</p>"
+            "description": "<p>0 : success, 1: user not found 2 : unknown err</p>"
           },
           {
             "group": "Success 200",
@@ -215,7 +457,7 @@ define({ "api": [
             "size": "0-2",
             "optional": false,
             "field": "status",
-            "description": "<p>0 : success, 2 : unknown err</p>"
+            "description": "<p>0 : success, 1: username/email password mismatch, 2 : unknown err</p>"
           },
           {
             "group": "Success 200",
@@ -312,31 +554,13 @@ define({ "api": [
     "name": "PostUserNew"
   },
   {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
+    "type": "get",
+    "url": "/match/:id/delete",
+    "title": "",
     "version": "0.0.0",
-    "filename": "./doc/main.js",
-    "group": "_home_anshuman_projects_robovitics_robo_fantasy_backend_doc_main_js",
-    "groupTitle": "_home_anshuman_projects_robovitics_robo_fantasy_backend_doc_main_js",
-    "name": ""
+    "filename": "./docs.go",
+    "group": "_home_anshuman_projects_robovitics_robo_fantasy_backend_docs_go",
+    "groupTitle": "_home_anshuman_projects_robovitics_robo_fantasy_backend_docs_go",
+    "name": "GetMatchIdDelete"
   }
 ] });
