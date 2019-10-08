@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"net/http"
@@ -174,3 +175,135 @@ func PostMatchNew(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func GetMatchDelete(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	i := vars["id"]
+	id, err := strconv.Atoi(i)
+
+	var res MatchResponse
+
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	err = DeleteMatch(id)
+
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	res.Status = 0
+	p, _ := json.Marshal(&res)
+	_, _ = w.Write(p)
+	return
+}
+
+func PostMatchStatus(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	i := vars["id"]
+	id, err := strconv.Atoi(i)
+
+	var res MatchResponse
+
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	d := ReadMatch(id)
+	if d == nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+	s := r.FormValue("status")
+	status, err := strconv.Atoi(s)
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+	err = UpdateStatus(id, MatchStatus(status))
+
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	res.Status = 0
+	p, _ := json.Marshal(&res)
+	_, _ = w.Write(p)
+	return
+}
+
+type SingleMatchResponse struct {
+	Status int   `json:"status"`
+	Data   Match `json:"data"`
+}
+
+func GetMatchIdDetails(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	i := vars["id"]
+	id, err := strconv.Atoi(i)
+
+	var res SingleMatchResponse
+
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	d := ReadMatch(id)
+	if d == nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	res.Status = 0
+	res.Data = *d
+
+	p, _ := json.Marshal(&res)
+	_, _ = w.Write(p)
+	return
+}
+
+type AllMatchResponse struct {
+	Status int     `json:"status"`
+	Data   []Match `json:"data"`
+}
+
+func GetMatchAll(w http.ResponseWriter, r *http.Request) {
+
+	var res AllMatchResponse
+
+	d := GetAllMatch()
+	if d == nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	res.Status = 0
+	res.Data = *d
+
+	p, _ := json.Marshal(&res)
+	_, _ = w.Write(p)
+	return
+}
