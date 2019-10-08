@@ -14,6 +14,7 @@ type Server struct {
 	db          *mongo.Database
 	config      Config
 	mux         sync.Mutex
+	signingKey  []byte
 }
 
 func DemoFuncHandler(w http.ResponseWriter, req *http.Request) {
@@ -30,7 +31,7 @@ func getHandler() http.Handler {
 	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
 
 	//Operation Related to user
-	router.HandleFunc("/user/new", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/user/new", PostUserNew).Methods("POST")
 	router.HandleFunc("/user/change", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/user/change/password", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/user/login", DemoFuncHandler).Methods("POST")
@@ -66,6 +67,7 @@ func (s *Server) InitServer(dbName string) {
 	s.mongoClient = GetClient("mongodb://localhost:27017")
 	s.db = s.mongoClient.Database(dbName)
 	s.mux = sync.Mutex{}
+	s.signingKey = []byte("achhapolia10")
 	GetConfig()
 	UpdateMatchCount()
 }

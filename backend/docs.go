@@ -77,7 +77,7 @@ package main
 */
 
 /**
-* @api {get} 	/user/:username/details Register a new user
+* @api {get} 	/user/:username/details Get details of the user
 * @apiGroup User
 *
 * @apiSuccess {Number{0-2}} status 0 : success,
@@ -89,4 +89,3 @@ package main
 */
 
 /////////////////////////////////////////////////////////////////////////
-
