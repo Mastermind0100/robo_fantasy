@@ -26,7 +26,14 @@
             "description": "<p>Details of all the bots structure like the single bot</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Response for all bots details",
+          "content": "{\"status\":0,\"data\":[{\"id\":1,\"name\":\"Bot\",\"team\":\"Team\",\"category\":15,\"description\":\"test bot\",\"video\":\"\",\"img\":\"jfdslakj\"},{\"id\":2,\"name\":\"Bot1\",\"team\":\"Team1\",\"category\":151,\"description\":\"test bot1\",\"video\":\"\",\"img\":\"jfdslakj1\"}]}",
+          "type": "json"
+        }
+      ]
     },
     "version": "0.0.0",
     "filename": "./docs.go",
@@ -87,7 +94,14 @@
             "description": "<p>Status 0:Sucess, 1:error</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Response on Deleting a bot:",
+          "content": "{\"status\":0}",
+          "type": "json"
+        }
+      ]
     },
     "version": "0.0.0",
     "filename": "./docs.go",
@@ -167,7 +181,14 @@
             "description": "<p>Status 0:Sucess, 1:error</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Response on Adding a bot:",
+          "content": "{\"status\":0}",
+          "type": "json"
+        }
+      ]
     },
     "version": "0.0.0",
     "filename": "./docs.go",
@@ -198,7 +219,7 @@
       "examples": [
         {
           "title": "Single bot response:",
-          "content": "{ \"status\":0,\n\t\"data\":[{\"id\":1,\"red\":\"red-team name\",\n\t\t\t\"blue\":\"blue-team name\", \"status\":0,\n\t\t\t\"category\":15}]}",
+          "content": "{\"status\":0,\"data\":[{\"id\":1,\"blue\":\"BLUE\",\"red\":\"RED\",\"category\":15,\"status\":0},{\"id\":2,\"blue\":\"Red\",\"red\":\"Blue\",\"category\":30,\"status\":0}]}",
           "type": "json"
         }
       ]
@@ -228,7 +249,14 @@
             "description": "<p>Status 0:Success, 1:error</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Response on Deleting a match:",
+          "content": "{\"status\":0}",
+          "type": "json"
+        }
+      ]
     },
     "version": "0.0.0",
     "filename": "./docs.go",
@@ -308,7 +336,14 @@
             "description": "<p>Status 0:Success, 1:error</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Response on updating status:",
+          "content": "{\"status\":0}",
+          "type": "json"
+        }
+      ]
     },
     "version": "0.0.0",
     "filename": "./docs.go",
@@ -375,7 +410,14 @@
             "description": "<p>Status 0:Success, 1:error</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Response on Adding a match:",
+          "content": "{\"status\":0}",
+          "type": "json"
+        }
+      ]
     },
     "version": "0.0.0",
     "filename": "./docs.go",
@@ -427,7 +469,14 @@
             "description": "<p>points</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Details for the user:",
+          "content": "{\"status\":0,\"firstname\":\"anshu\",\"lastname\":\"anshu\",\"email\":\"anshu@test.com\",\"points\":0}",
+          "type": "json"
+        }
+      ]
     },
     "version": "0.0.0",
     "filename": "./docs.go",
@@ -437,7 +486,7 @@
   {
     "type": "post",
     "url": "/user/change",
-    "title": "Change First and Last Name of the user",
+    "title": "Change First and Last Name of the user (not implemented yet so no examples)",
     "group": "User",
     "parameter": {
       "fields": {
@@ -502,7 +551,7 @@
   {
     "type": "post",
     "url": "/user/change/password",
-    "title": "Change Password of the users",
+    "title": "Change Password of the users (not implemented yet so no examples)",
     "group": "User",
     "parameter": {
       "fields": {
@@ -608,7 +657,14 @@
             "description": "<p>JWT Auth token to be saved and pass for further requests</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Successful Login Response:",
+          "content": "{\"status\":0,\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhbnNodSIsImxhc3ROYW1lIjoiYW5zaHUiLCJ1c2VybmFtZSI6ImFjaGhhcG9saWExMCIsImVtYWlsIjoiYW5zaHVAdGVzdC5jb20iLCJjaS11c2VybmFtZSI6IkFDSEhBUE9MSUExMCJ9.Yrr__2aHEULhPaFJ9VBsYgLJR0EJ3JC-rSFB0s-Zq0M\"}",
+          "type": "json"
+        }
+      ]
     },
     "version": "0.0.0",
     "filename": "./docs.go",
@@ -687,7 +743,14 @@
             "description": "<p>JWT Auth token to be saved and pass for further requests</p>"
           }
         ]
-      }
+      },
+      "examples": [
+        {
+          "title": "Successful Login Response:",
+          "content": "{\"status\":0,\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhbnNodSIsImxhc3ROYW1lIjoiYW5zaHUiLCJ1c2VybmFtZSI6ImFjaGhhcG9saWExMCIsImVtYWlsIjoiYW5zaHVAdGVzdC5jb20iLCJjaS11c2VybmFtZSI6IkFDSEhBUE9MSUExMCJ9.Yrr__2aHEULhPaFJ9VBsYgLJR0EJ3JC-rSFB0s-Zq0M\"}",
+          "type": "json"
+        }
+      ]
     },
     "version": "0.0.0",
     "filename": "./docs.go",
