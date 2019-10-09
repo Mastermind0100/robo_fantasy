@@ -29,28 +29,10 @@ func (u *User) Valid() error {
 	return nil
 }
 
-type UserPredictionData struct {
-	Username    string           `json:"username"`
-	Predictions []UserPrediction `json:"predictions"`
-}
 type AuthUser struct {
 	UserDetails User
 	Password    string
 }
-
-type UserPrediction struct {
-	MatchID    string      `json:"matchID"`
-	Prediction Predictions `json:"prediction"`
-	Result     bool        `json:"result"`
-}
-
-type Predictions string
-
-const (
-	BLUE Predictions = "blue"
-	RED  Predictions = "red"
-	NONE Predictions = "none"
-)
 
 func AddUser(u *User, p string) error {
 	u.CIUsername = string(bytes.ToUpper([]byte(u.Username)))
@@ -295,10 +277,6 @@ func GetUserDetails(w http.ResponseWriter, req *http.Request) {
 	p, _ := json.Marshal(&res)
 	_, _ = w.Write(p)
 	return
-}
-
-func GetPoints() int { //TODO: Implement the points system, Write crud for predictions
-	return 0
 }
 
 func GetToken(user User) string {
