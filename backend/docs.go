@@ -23,10 +23,12 @@ package main
                                   2 : unknown err
 * @apiSuccess {String} token JWT Auth token to be saved and pass for further requests
 *
+*@apiSuccessExample {json} Successful Login Response:
+{"status":0,"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhbnNodSIsImxhc3ROYW1lIjoiYW5zaHUiLCJ1c2VybmFtZSI6ImFjaGhhcG9saWExMCIsImVtYWlsIjoiYW5zaHVAdGVzdC5jb20iLCJjaS11c2VybmFtZSI6IkFDSEhBUE9MSUExMCJ9.Yrr__2aHEULhPaFJ9VBsYgLJR0EJ3JC-rSFB0s-Zq0M"}
 */
 
 /**
-* @api {post} 	/user/change Change First and Last Name of the user
+* @api {post} 	/user/change Change First and Last Name of the user (not implemented yet so no examples)
 * @apiGroup User
 *
 * @apiParam {String} username Username
@@ -46,7 +48,7 @@ package main
 */
 
 /**
-* @api {post} 	/user/change/password Change Password of the users
+* @api {post} 	/user/change/password Change Password of the users (not implemented yet so no examples)
 * @apiGroup User
 *
 * @apiParam {String} username Username
@@ -74,6 +76,10 @@ package main
 									1: username/email password mismatch,
                                   2 : unknown err
 * @apiSuccess {String} token JWT Auth token to be saved and pass for further requests
+
+@apiSuccessExample {json} Successful Login Response:
+{"status":0,"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhbnNodSIsImxhc3ROYW1lIjoiYW5zaHUiLCJ1c2VybmFtZSI6ImFjaGhhcG9saWExMCIsImVtYWlsIjoiYW5zaHVAdGVzdC5jb20iLCJjaS11c2VybmFtZSI6IkFDSEhBUE9MSUExMCJ9.Yrr__2aHEULhPaFJ9VBsYgLJR0EJ3JC-rSFB0s-Zq0M"}
+
 *
 */
 
@@ -88,6 +94,9 @@ package main
 * @apiSuccess {String} lastname Last Name
 * @apiSuccess {String} email Email
 * @apiSuccess {Number} points points
+
+@apiSuccessExample {json} Details for the user:
+{"status":0,"firstname":"anshu","lastname":"anshu","email":"anshu@test.com","points":0}
 */
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +113,9 @@ package main
 @apiParam {String} image Image Link
 
 @apiSuccess {Number=0,1} status Status 0:Sucess, 1:error
+
+@apiSuccessExample {json} Response on Adding a bot:
+{"status":0}
 */
 
 /**
@@ -111,6 +123,8 @@ package main
 @apiGroup Bots
 
 @apiSuccess {Number=0,1} status Status 0:Sucess, 1:error
+@apiSuccessExample {json} Response on Deleting a bot:
+{"status":0}
 */
 
 /**
@@ -119,6 +133,9 @@ package main
 
 @apiSuccess {Number=0,1} status Status 0:Success, 1:error
 @apiSuccess {Object[]} data Details of all the bots structure like the single bot
+
+@apiSuccessExample {json} Response for all bots details
+{"status":0,"data":[{"id":1,"name":"Bot","team":"Team","category":15,"description":"test bot","video":"","img":"jfdslakj"},{"id":2,"name":"Bot1","team":"Team1","category":151,"description":"test bot1","video":"","img":"jfdslakj1"}]}
 */
 
 /**
@@ -148,6 +165,8 @@ package main
 
 
 @apiSuccess {Number=0,1} status Status 0:Success, 1:error
+@apiSuccessExample {json} Response on Adding a match:
+{"status":0}
 */
 
 /**
@@ -155,6 +174,8 @@ package main
 @apiGroup Matches
 
 @apiSuccess {Number=0,1} status Status 0:Success, 1:error
+@apiSuccessExample {json} Response on Deleting a match:
+{"status":0}
 */
 
 /**
@@ -164,6 +185,9 @@ package main
 @apiParam {Number=0,1,2,3} status 0:upcoming, 1:red won, 2:blue won, 3: draw
 
 @apiSuccess {Number=0,1} status Status 0:Success, 1:error
+
+@apiSuccessExample {json} Response on updating status:
+{"status":0}
 */
 
 /**
@@ -186,8 +210,5 @@ package main
 @apiSuccess {Number=0,1} status Status 0:Success, 1:error
 @apiSuccessParam {Object[]} data
 @apiSuccessExample {json} Single bot response:
-	{ "status":0,
-		"data":[{"id":1,"red":"red-team name",
-				"blue":"blue-team name", "status":0,
-				"category":15}]}
+	{"status":0,"data":[{"id":1,"blue":"BLUE","red":"RED","category":15,"status":0},{"id":2,"blue":"Red","red":"Blue","category":30,"status":0}]}
 */

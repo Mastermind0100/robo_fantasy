@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestAddUser(t *testing.T) {
 	s.InitServer("robowarsTest")
