@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+
+        android:title="@string/vote_nav"
+         />
+
+    <item
+        android:id="@+id/navigation_dashboard"
+
+        android:title="@string/wiki_nav" />
+
+    <item
+        android:id="@+id/navigation_leaderboard"
+        android:title="@string/leaderboard_nav"
+        />
+    <item
+        android:id="@+id/navigation_notifications"
+
+        android:title="@string/profile_nav" />
+
+</menu>

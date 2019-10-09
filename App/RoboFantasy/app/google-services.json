@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1080734482722",
+    "firebase_url": "https://robofantasy-e661b.firebaseio.com",
+    "project_id": "robofantasy-e661b",
+    "storage_bucket": "robofantasy-e661b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080734482722:android:99f2a8dd7ed0abfc0f257b",
+        "android_client_info": {
+          "package_name": "com.herokuapp.ringo.robofantasy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080734482722-90snvpo02oj893r9us0qah3ii7vcs0lu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ4Wv1dYe07xKFi71yYbajz6wYkU9wx6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080734482722-90snvpo02oj893r9us0qah3ii7vcs0lu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

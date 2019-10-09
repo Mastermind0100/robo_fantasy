@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_landing_page"
+    tools:context=".LandingActivity">
+
+    <Button
+        android:id="@+id/click"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/button_border"
+        android:backgroundTint="#E5802BB1"
+        android:text="Login"
+        android:textColor="@color/colorWhite" />
+
+
+
+</RelativeLayout>
