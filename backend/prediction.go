@@ -2,8 +2,12 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
+	"net/http"
+	"strconv"
 )
 
 type UserPredictionData struct {
@@ -35,6 +39,17 @@ func AddUserPrediction(username string, p UserPrediction) error {
 
 	f := predictionCollection.FindOne(context.Background(), filter)
 	if f.Err() == nil {
+
+		filter1 := bson.D{
+			{"username", username},
+			{"predictions.matchid", p.MatchID},
+		}
+
+		err1 := predictionCollection.FindOne(context.Background(), filter1)
+		if err1.Err() == nil {
+			log.WithField("err", "Prediction for this match already made").Error("Already made a prediction")
+			return errors.New("Prediction for this match already made")
+		}
 
 		update := bson.D{
 			{"$push", bson.D{
@@ -119,4 +134,43 @@ func ReadAllUsersPredictions() *[]UserPredictionData {
 
 func GetPoints() int { //TODO: Implement the points system, Write crud for predictions
 	return 0
+}
+
+type BetResponse struct {
+	Status int `json:"status"`
+}
+
+func PostBet(w http.ResponseWriter, r *http.Request) {
+	username := r.FormValue("username")
+	id := r.FormValue("matchid")
+
+	matchID, err := strconv.Atoi(id)
+
+	var res BetResponse
+
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	team := r.FormValue("team")
+
+	err = AddUserPrediction(username, UserPrediction{
+		MatchID:    matchID,
+		Prediction: Predictions(team),
+	})
+
+	if err != nil {
+		res.Status = 1
+		p, _ := json.Marshal(&res)
+		_, _ = w.Write(p)
+		return
+	}
+
+	res.Status = 0
+	p, _ := json.Marshal(&res)
+	_, _ = w.Write(p)
+	return
 }

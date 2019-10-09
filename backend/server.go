@@ -56,6 +56,7 @@ func getHandler() http.Handler {
 
 	//Operations Related to Betting
 	router.HandleFunc("/bet", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/leaderboard/{userID}",DemoFuncHandler).Methods("GET")
 
 	//For LiveLeader board websocket
 	router.HandleFunc("/leaderboard", DemoFuncHandler).Methods("GET")
