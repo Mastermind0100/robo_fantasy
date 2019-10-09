@@ -17,7 +17,7 @@ class Match extends React.Component {
     }
     render(){
             return (
-              <Carousel activeIndex={this.ControlledCarousel.index} direction={this.ControlledCarousel.direction} onSelect={this.ControlledCarousel.handleSelect}>
+              <Carousel activeIndex={this.ControlledCarousel.index} direction={this.ControlledCarousel.direction} onSelect={this.ControlledCarousel.handleSelect} indicators={false}>
                 <Carousel.Item>
                     <h1>Previous Match</h1>
                     <Row>
