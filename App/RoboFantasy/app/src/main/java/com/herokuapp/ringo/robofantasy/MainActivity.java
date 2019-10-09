@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         session = new UserSessionManager(getApplicationContext());
 
+
         email = findViewById(R.id.username);
         pass = findViewById(R.id.password);
         mFirstTimeUsers = findViewById(R.id.btn_ftusers);

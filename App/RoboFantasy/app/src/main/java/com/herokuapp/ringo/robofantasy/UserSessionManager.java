@@ -61,10 +61,10 @@ public class UserSessionManager {
      * */
     public boolean checkLogin(){
         // Check login status
-        if(!this.isUserLoggedIn()){
+        if(this.isUserLoggedIn()){
 
             // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, MainActivity.class);
+            Intent i = new Intent(_context, BattleActivity.class);
 
             // Closing all the Activities from stack
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

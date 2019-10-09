@@ -30,9 +30,7 @@ public class BattleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battle);
         //User session management
-        session = new UserSessionManager(getApplicationContext());
-        if(session.checkLogin())
-            finish();
+
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);

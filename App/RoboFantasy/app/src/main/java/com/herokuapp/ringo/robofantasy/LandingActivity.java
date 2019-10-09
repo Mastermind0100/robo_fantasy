@@ -10,19 +10,24 @@ import android.widget.Button;
 public class LandingActivity extends AppCompatActivity {
 
     private Button startbtn;
+    UserSessionManager session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
+        session = new UserSessionManager(getApplicationContext());
+        if(session.checkLogin())
+            finish();
+
         startbtn = findViewById(R.id.click);
         startbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LandingActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(LandingActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
     }
 }

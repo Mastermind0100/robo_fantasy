@@ -4,14 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlack"
+    android:background="@drawable/ic_register"
     android:padding="30dp"
     tools:context=".RegisterActivity">
+
+    <ImageView
+    android:layout_width="180dp"
+    android:layout_height="40dp"
+    android:layout_marginTop="120dp"
+    android:id="@+id/register_header"
+    android:src="@drawable/ic_register_header" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_below="@id/register_header"
+        android:layout_marginTop="30dp"
         android:textColorHint="@color/colorWhite"
         android:id="@+id/texttip0"
         android:hint="Name">

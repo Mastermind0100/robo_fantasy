@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 else
+
                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
             }
         });

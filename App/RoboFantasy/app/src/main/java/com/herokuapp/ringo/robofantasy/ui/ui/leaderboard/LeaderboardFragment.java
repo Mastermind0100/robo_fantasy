@@ -38,33 +38,16 @@ public class LeaderboardFragment extends Fragment {
         participants.add(new Participants(3,"c",655));
 
 
-
-        //try{
-
         final ParticipantsAdapter mparticipantsAdapter = new ParticipantsAdapter(this.getActivity(), R.layout.item_message, participants);
-        //QueryUtils queryUtils = new QueryUtils();
-        // Find a reference to the {@link ListView} in the layout
+
         ListView participantListView =  root.findViewById(R.id.list);
         if (participantListView!=null){
-        // Create a new {@link ArrayAdapter} of earthquakes
-        // Set the adapter on the {@link ListView}
-        // so the list can be populated in the user interface
+
         participantListView.setAdapter(mparticipantsAdapter);}
         else{
             System.out.println("NUll hai");
         }
-        /*final TextView textView = root.findViewById(R.id.text_dashboard);
-        leaderboardViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
 
-            }
-        });*/
-
-        /*catch (Exception e){
-            e.printStackTrace();
-        }
-*/
         return root;
     }
 
