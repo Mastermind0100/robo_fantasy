@@ -1,61 +1,5 @@
 [
   {
-    "type": "get",
-    "url": "/user/:username/matches",
-    "title": "Get results for matches for a user",
-    "group": "Bet",
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Object[]",
-            "optional": false,
-            "field": "data",
-            "description": "<p>Result array of further fields define fields of object</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "string",
-            "optional": false,
-            "field": "red",
-            "description": "<p>Red Team Name</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "string",
-            "optional": false,
-            "field": "blue",
-            "description": "<p>Blue Team name</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "string",
-            "allowedValues": [
-              "\"red\"",
-              "\"blue\"",
-              "\"none\""
-            ],
-            "optional": false,
-            "field": "prediction",
-            "description": "<p>Prediction for team color</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "boolean",
-            "optional": false,
-            "field": "result",
-            "description": "<p>Result true or false</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "./docs.go",
-    "groupTitle": "Bet",
-    "name": "GetUserUsernameMatches"
-  },
-  {
     "type": "post",
     "url": "/bet",
     "title": "Prediction for user",
@@ -603,6 +547,113 @@
     "filename": "./docs.go",
     "groupTitle": "User",
     "name": "GetUserUsernameDetails"
+  },
+  {
+    "type": "get",
+    "url": "/user/:username/leaderboard",
+    "title": "Get the leaderboard for the user",
+    "group": "User",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "topten",
+            "description": "<p>Top Ten people (Ask me for jsonSchema)</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "rank",
+            "description": "<p>Rank for the user</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "points",
+            "description": "<p>Points for the user</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "LeaderBoard for the user:",
+          "content": "{\"topten\":[{\"user\":{\"firstName\":\"anshu\",\"lastName\":\"anshu\",\"username\":\"anshu2\",\"email\":\"anshu2@test.com\",\"ci-username\":\"ANSHU2\"},\"points\":2},{\"user\":{\"firstName\":\"anshu\",\"lastName\":\"anshu\",\"username\":\"anshu3\",\"email\":\"anshu3@test.com\",\"ci-username\":\"ANSHU3\"},\"points\":1},{\"user\":{\"firstName\":\"anshu\",\"lastName\":\"anshu\",\"username\":\"anshu1\",\"email\":\"anshu@test.com\",\"ci-username\":\"ANSHU1\"},\"points\":0}],\"rank\":3,\"points\":0}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "User",
+    "name": "GetUserUsernameLeaderboard"
+  },
+  {
+    "type": "get",
+    "url": "/user/:username/matches",
+    "title": "Get results for matches for a user",
+    "group": "User",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Result array of further fields define fields of object</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "red",
+            "description": "<p>Red Team Name</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "blue",
+            "description": "<p>Blue Team name</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "allowedValues": [
+              "\"red\"",
+              "\"blue\"",
+              "\"none\""
+            ],
+            "optional": false,
+            "field": "prediction",
+            "description": "<p>Prediction for team color</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "boolean",
+            "optional": false,
+            "field": "result",
+            "description": "<p>Result true or false</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Matches for the user:",
+          "content": "{\"data\":[{\"red\":\"RED1\",\"blue\":\"BLUE1\",\"prediction\":\"blue\",\"result\":2},{\"red\":\"RED2\",\"blue\":\"BLUE2\",\"prediction\":\"blue\",\"result\":2},{\"red\":\"RED3\",\"blue\":\"BLUE3\",\"prediction\":\"none\",\"result\":0}]}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./docs.go",
+    "groupTitle": "User",
+    "name": "GetUserUsernameMatches"
   },
   {
     "type": "post",

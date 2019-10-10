@@ -34,9 +34,21 @@ type AuthUser struct {
 	Password    string
 }
 
-type UserPoints struct {
+type UserPoint struct {
 	UserDetails User `json:"user"`
 	Points      int  `json:"points"`
+}
+
+type UserPoints []UserPoint
+
+func (u UserPoints) Len() int {
+	return len(u)
+}
+func (u UserPoints) Less(i, j int) bool {
+	return u[i].Points > u[j].Points
+}
+func (u UserPoints) Swap(i, j int) {
+	u[i], u[j] = u[j], u[i]
 }
 
 func AddUser(u *User, p string) error {
@@ -294,10 +306,86 @@ func GetToken(user User) string {
 	return ss
 }
 
-func GetUserMatchDetails(w http.ResponseWriter, r *http.Request) {
+type UserMatchDetails struct {
+	Data []UserMatchData `json:"data"`
+}
+type UserMatchData struct {
+	Red        string `json:"red"`
+	Blue       string `json:"blue"`
+	Prediction string `json:"prediction"`
+	Result     int    `json:"result"`
+}
 
+func GetUserMatchDetails(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	username := vars["username"]
+
+	var umd UserMatchDetails
+
+	data := ReadUserPredictionsMap(username)
+
+	if len(data) == 0 {
+		md := UserMatchData{
+			Red:        s.latestMatch.RedTeam,
+			Blue:       s.latestMatch.BlueTeam,
+			Prediction: "none",
+			Result:     int(StatusUpcoming),
+		}
+		umd.Data = append(umd.Data, md)
+		p, _ := json.Marshal(&umd)
+		_, _ = w.Write(p)
+		return
+	}
+
+	matches := s.Matches
+	for _, m := range matches {
+		id := m.MatchID
+		p := data[id]
+		md := UserMatchData{
+			Red:        s.Matches[id].RedTeam,
+			Blue:       s.Matches[id].BlueTeam,
+			Prediction: string(p.Prediction),
+			Result:     int(s.Matches[id].Status),
+		}
+		if md.Prediction == "" {
+			md.Prediction = "none"
+		}
+		umd.Data = append(umd.Data, md)
+	}
+
+	p, _ := json.Marshal(&umd)
+	_, _ = w.Write(p)
+	return
+}
+
+type UserLeaderBoard struct {
+	TopTen []UserPoint `json:"topten"`
+	Rank   int         `json:"rank"`
+	Points int         `json:"points"`
 }
 
 func GetUserLeaderBoard(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	username := vars["username"]
 
+	ulb := UserLeaderBoard{
+		TopTen: s.leaderboard,
+		Rank:   GetUserRank(username),
+		Points: s.UserPointMap[username],
+	}
+
+	p, _ := json.Marshal(&ulb)
+	_, _ = w.Write(p)
+	return
+}
+
+func GetUserRank(username string) int {
+	i := 0
+	for _, ele := range s.ranking {
+		i++
+		if ele.UserDetails.Username == username {
+			break
+		}
+	}
+	return i
 }

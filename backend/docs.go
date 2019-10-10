@@ -230,11 +230,26 @@ package main
 
 /**
 @api {get} /user/:username/matches Get results for matches for a user
-@apiGroup Bet
+@apiGroup User
 @apiSucess {Number=0,1} status Status 0:Success, 1:error
 @apiSuccess {Object[]} data Result array of further fields define fields of object
 @apiSuccess {string} red Red Team Name
 @apiSuccess {string} blue Blue Team name
 @apiSuccess {string="red","blue","none"} prediction Prediction for team color
-@apiSuccess {boolean} result Result true or false
+@apiSuccess {Number=0,1,2} result Result 0:upcoming,1:red,2:blue
+
+@apiSuccessExample {json} Matches for the user:
+{"data":[{"red":"RED1","blue":"BLUE1","prediction":"blue","result":2},{"red":"RED2","blue":"BLUE2","prediction":"blue","result":2},{"red":"RED3","blue":"BLUE3","prediction":"none","result":0}]}
+*/
+
+/**
+@api {get} /user/:username/leaderboard Get the leaderboard for the user
+@apiGroup User
+
+@apiSuccess {Object[]} topten Top Ten people (Ask me for jsonSchema)
+@apiSuccess {Number} rank Rank for the user
+@apiSuccess {Number} points Points for the user
+
+@apiSuccessExample {json} LeaderBoard for the user:
+{"topten":[{"user":{"firstName":"anshu","lastName":"anshu","username":"anshu2","email":"anshu2@test.com","ci-username":"ANSHU2"},"points":2},{"user":{"firstName":"anshu","lastName":"anshu","username":"anshu3","email":"anshu3@test.com","ci-username":"ANSHU3"},"points":1},{"user":{"firstName":"anshu","lastName":"anshu","username":"anshu1","email":"anshu@test.com","ci-username":"ANSHU1"},"points":0}],"rank":3,"points":0}
 */

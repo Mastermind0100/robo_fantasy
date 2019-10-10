@@ -110,6 +110,34 @@ func ReadUserPredictions(username string) *UserPredictionData {
 
 	return &ud
 }
+func ReadUserPredictionsMap(username string) map[int]UserPrediction {
+	var ud UserPredictionData
+	res := make(map[int]UserPrediction)
+	filter := bson.D{
+		{"username", username},
+	}
+
+	predictionCollection := s.db.Collection("predictions")
+
+	f := predictionCollection.FindOne(context.Background(), filter)
+	if f.Err() != nil {
+		log.WithField("err", f.Err()).Error("Error in getting prediction")
+		return nil
+	}
+
+	err := f.Decode(&ud)
+
+	if err != nil {
+		log.WithField("err", err).Error("Error decoding in getting prediction")
+		return nil
+	}
+
+	for _, b := range ud.Predictions {
+		res[b.MatchID] = b
+	}
+
+	return res
+}
 
 func ReadAllUsersPredictions() *[]UserPredictionData {
 	var p []UserPredictionData
@@ -131,7 +159,6 @@ func ReadAllUsersPredictions() *[]UserPredictionData {
 	}
 	return &p
 }
-
 
 type BetResponse struct {
 	Status int `json:"status"`

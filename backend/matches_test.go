@@ -71,12 +71,12 @@ func TestGetAllMatchMap(t *testing.T) {
 	s.InitServer("robowarsTest")
 	m := GetAllMatchMap()
 
-	if m== nil {
+	if m == nil {
 		t.Fail()
 	}
 	t.Log(m)
 }
 
-func TestCalculateLeaderBoard(t *testing.T){
+func TestCalculateLeaderBoard(t *testing.T) {
 	CalculateLeaderBoard()
 }
