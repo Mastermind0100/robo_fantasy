@@ -15,9 +15,10 @@ type Server struct {
 	config       Config
 	mux          sync.Mutex
 	signingKey   []byte
-	leaderboard  []UserPoints
+	leaderboard  []UserPoint
 	UserPointMap map[string]int
 	Matches      map[int]Match
+	ranking      []UserPoint
 }
 
 func DemoFuncHandler(w http.ResponseWriter, _ *http.Request) {
@@ -41,7 +42,7 @@ func getHandler() http.Handler {
 	router.HandleFunc("/user/login", PostUserLogin).Methods("POST")
 	router.HandleFunc("/user/{username}/details", GetUserDetails).Methods("GET")
 	router.HandleFunc("/user/{username}/matches", GetUserMatchDetails).Methods("GET")
-	router.HandleFunc("/user/{username}/leaderboard",GetUserLeaderBoard).Methods("GET")
+	router.HandleFunc("/user/{username}/leaderboard", GetUserLeaderBoard).Methods("GET")
 
 	//Operations Related to matches
 	router.HandleFunc("/match/new", PostMatchNew).Methods("POST")

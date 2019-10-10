@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"net/http"
+	"sort"
 	"strconv"
 )
 
@@ -283,41 +283,34 @@ func PostMatchStatus(w http.ResponseWriter, r *http.Request) {
 func PerformPostStatusTasks() {
 	s.Matches = GetAllMatchMap()
 	CalculateUserPoints()
+	CalculateRank()
 	CalculateLeaderBoard()
 }
 
-func CalculateLeaderBoard() {
-	type pointTable struct {
-		username string
-		point    int
-	}
-	leader := make([]pointTable, 11)
+func CalculateRank() {
+	var user []UserPoint
+
 	for k, v := range s.UserPointMap {
-		leader[10] = pointTable{
-			username: k,
-			point:    v,
-		}
-		for i := 10; i > 0; i-- {
-			if leader[i].point >= leader[i-1].point {
-				leader[i], leader[i-1] = leader[i-1], leader[i]
-
-			}
-		}
-	}
-
-	fmt.Print(leader)
-
-	leaderBoard := make([]UserPoints, 10)
-	for i, _ := range leaderBoard {
-		u := GetUserByUsername(leader[i].username)
+		var up UserPoint
+		u := GetUserByUsername(k)
 		if u != nil {
-			leaderBoard[i] = UserPoints{
-				UserDetails: u.UserDetails,
-				Points:      leader[i].point,
-			}
+			up.UserDetails = u.UserDetails
+			up.Points = v
+			user = append(user, up)
 		}
 	}
-	s.leaderboard = leaderBoard
+
+	sort.Sort(UserPoints(user))
+
+	s.ranking = user
+}
+
+func CalculateLeaderBoard() {
+	if len(s.ranking) < 10 {
+		s.leaderboard = s.ranking[:len(s.ranking)]
+		return
+	}
+	s.leaderboard = s.ranking[:10]
 }
 
 func CalculateUserPoints() {
@@ -329,10 +322,10 @@ func CalculateUserPoints() {
 		point := 0
 		for _, prediction := range user.Predictions {
 			res := m[prediction.MatchID].Status
-			if (res == 1 && prediction.Prediction == "red") {
+			if res == 1 && prediction.Prediction == "red" {
 				point++
 			}
-			if (res == 2 && prediction.Prediction == "blue") {
+			if res == 2 && prediction.Prediction == "blue" {
 				point++
 			}
 		}

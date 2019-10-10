@@ -34,9 +34,21 @@ type AuthUser struct {
 	Password    string
 }
 
-type UserPoints struct {
+type UserPoint struct {
 	UserDetails User `json:"user"`
 	Points      int  `json:"points"`
+}
+
+type UserPoints []UserPoint
+
+func (u UserPoints) Len() int {
+	return len(u)
+}
+func (u UserPoints) Less(i, j int) bool {
+	return u[i].Points > u[j].Points
+}
+func (u UserPoints) Swap(i, j int) {
+	u[i], u[j] = u[j], u[i]
 }
 
 func AddUser(u *User, p string) error {

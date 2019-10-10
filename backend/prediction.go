@@ -132,7 +132,6 @@ func ReadAllUsersPredictions() *[]UserPredictionData {
 	return &p
 }
 
-
 type BetResponse struct {
 	Status int `json:"status"`
 }
