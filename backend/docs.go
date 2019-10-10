@@ -217,7 +217,7 @@ package main
 
 /**
 @api {post} /bet Prediction for user
-
+@apiGroup Bet
 @apiParam {String} username Username
 @apiParam {Number} matchid	Matchid
 @apiParam {String="red","blue"} team Team color
@@ -226,4 +226,14 @@ package main
 
 @apiSuccessExample {json} Response on updating status:
 {"status":0}
+*/
+
+/**
+@api {get} /user/:username/matches Get results for matches for a user
+@apiGroup Bet
+@apiSucess {Number=0,1} status Status 0:Success, 1:error
+@apiSuccess {Object[]} data Result array of further fields define fields of object
+@apiSuccess {Number} matchid Match ID
+@apiSuccess {string="red","blue"} prediction Prediction for team color
+@apiSuccess {boolean} result Result true or false
 */

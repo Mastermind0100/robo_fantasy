@@ -288,3 +288,7 @@ func GetToken(user User) string {
 	}
 	return ss
 }
+
+func GetUserMatchDetails(w http.ResponseWriter, r *http.Request) {
+
+}

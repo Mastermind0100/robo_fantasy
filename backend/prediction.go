@@ -132,7 +132,7 @@ func ReadAllUsersPredictions() *[]UserPredictionData {
 	return &p
 }
 
-func GetPoints() int { //TODO: Implement the points system, Write crud for predictions
+func GetPoints() int {
 	return 0
 }
 
