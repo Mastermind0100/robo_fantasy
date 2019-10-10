@@ -233,7 +233,8 @@ package main
 @apiGroup Bet
 @apiSucess {Number=0,1} status Status 0:Success, 1:error
 @apiSuccess {Object[]} data Result array of further fields define fields of object
-@apiSuccess {Number} matchid Match ID
-@apiSuccess {string="red","blue"} prediction Prediction for team color
+@apiSuccess {string} red Red Team Name
+@apiSuccess {string} blue Blue Team name
+@apiSuccess {string="red","blue","none"} prediction Prediction for team color
 @apiSuccess {boolean} result Result true or false
 */

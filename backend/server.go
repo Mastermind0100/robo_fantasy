@@ -10,11 +10,14 @@ import (
 )
 
 type Server struct {
-	mongoClient *mongo.Client
-	db          *mongo.Database
-	config      Config
-	mux         sync.Mutex
-	signingKey  []byte
+	mongoClient  *mongo.Client
+	db           *mongo.Database
+	config       Config
+	mux          sync.Mutex
+	signingKey   []byte
+	leaderboard  []UserPoints
+	UserPointMap map[string]int
+	Matches      map[int]Match
 }
 
 func DemoFuncHandler(w http.ResponseWriter, _ *http.Request) {
@@ -38,6 +41,7 @@ func getHandler() http.Handler {
 	router.HandleFunc("/user/login", PostUserLogin).Methods("POST")
 	router.HandleFunc("/user/{username}/details", GetUserDetails).Methods("GET")
 	router.HandleFunc("/user/{username}/matches", GetUserMatchDetails).Methods("GET")
+	router.HandleFunc("/user/{username}/leaderboard",GetUserLeaderBoard).Methods("GET")
 
 	//Operations Related to matches
 	router.HandleFunc("/match/new", PostMatchNew).Methods("POST")
@@ -76,6 +80,7 @@ func (s *Server) InitServer(dbName string) {
 	s.signingKey = []byte("achhapolia10")
 	GetConfig()
 	UpdateMatchCount()
+	PerformPostStatusTasks()
 }
 
 func (s *Server) Shutdown() {

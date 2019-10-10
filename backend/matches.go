@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
@@ -127,6 +128,33 @@ func GetAllMatch() *[]Match {
 	return &matches
 }
 
+func GetAllMatchMap() map[int]Match {
+	matchCollection := s.db.Collection("matches")
+	matches := make(map[int]Match)
+
+	res, err := matchCollection.Find(context.Background(), bson.D{})
+	if err != nil {
+		log.WithField("err", err).Error("Cant read the matches")
+		return nil
+	}
+
+	var match Match
+	for res.Next(context.Background()) {
+		err := res.Decode(&match)
+		if err != nil {
+			log.WithField("err", err).Error("Cant read decode all  matches")
+			return nil
+		}
+		matches[match.MatchID] = match
+	}
+	if err != nil {
+		log.WithField("err", err).Error("Cant read decode all  matches")
+		return nil
+	}
+
+	return matches
+}
+
 func UpdateStatus(id int, status MatchStatus) error {
 	m := ReadMatch(id)
 	m.Status = status
@@ -225,8 +253,8 @@ func PostMatchStatus(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write(p)
 		return
 	}
-	s := r.FormValue("status")
-	status, err := strconv.Atoi(s)
+	st := r.FormValue("status")
+	status, err := strconv.Atoi(st)
 	if err != nil {
 		res.Status = 1
 		p, _ := json.Marshal(&res)
@@ -245,7 +273,72 @@ func PostMatchStatus(w http.ResponseWriter, r *http.Request) {
 	res.Status = 0
 	p, _ := json.Marshal(&res)
 	_, _ = w.Write(p)
+
+	s.mux.Lock()
+	PerformPostStatusTasks()
+	s.mux.Unlock()
 	return
+}
+
+func PerformPostStatusTasks() {
+	s.Matches = GetAllMatchMap()
+	CalculateUserPoints()
+	CalculateLeaderBoard()
+}
+
+func CalculateLeaderBoard() {
+	type pointTable struct {
+		username string
+		point    int
+	}
+	leader := make([]pointTable, 11)
+	for k, v := range s.UserPointMap {
+		leader[10] = pointTable{
+			username: k,
+			point:    v,
+		}
+		for i := 10; i > 0; i-- {
+			if leader[i].point >= leader[i-1].point {
+				leader[i], leader[i-1] = leader[i-1], leader[i]
+
+			}
+		}
+	}
+
+	fmt.Print(leader)
+
+	leaderBoard := make([]UserPoints, 10)
+	for i, _ := range leaderBoard {
+		u := GetUserByUsername(leader[i].username)
+		if u != nil {
+			leaderBoard[i] = UserPoints{
+				UserDetails: u.UserDetails,
+				Points:      leader[i].point,
+			}
+		}
+	}
+	s.leaderboard = leaderBoard
+}
+
+func CalculateUserPoints() {
+	u := *ReadAllUsersPredictions()
+	points := make(map[string]int)
+	m := GetAllMatchMap()
+
+	for _, user := range u {
+		point := 0
+		for _, prediction := range user.Predictions {
+			res := m[prediction.MatchID].Status
+			if (res == 1 && prediction.Prediction == "red") {
+				point++
+			}
+			if (res == 2 && prediction.Prediction == "blue") {
+				point++
+			}
+		}
+		points[user.Username] = point
+	}
+	s.UserPointMap = points
 }
 
 type SingleMatchResponse struct {

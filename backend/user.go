@@ -34,6 +34,11 @@ type AuthUser struct {
 	Password    string
 }
 
+type UserPoints struct {
+	UserDetails User `json:"user"`
+	Points      int  `json:"points"`
+}
+
 func AddUser(u *User, p string) error {
 	u.CIUsername = string(bytes.ToUpper([]byte(u.Username)))
 	au := AuthUser{
@@ -271,7 +276,7 @@ func GetUserDetails(w http.ResponseWriter, req *http.Request) {
 	res.Email = au.UserDetails.Email
 	res.FirstName = au.UserDetails.FirstName
 	res.LastName = au.UserDetails.LastName
-	res.Points = GetPoints()
+	res.Points = s.UserPointMap[username]
 
 	res.Status = 0
 	p, _ := json.Marshal(&res)
@@ -290,5 +295,9 @@ func GetToken(user User) string {
 }
 
 func GetUserMatchDetails(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func GetUserLeaderBoard(w http.ResponseWriter, r *http.Request) {
 
 }
