@@ -4,9 +4,9 @@ import "testing"
 
 func TestAddUserPrediction(t *testing.T) {
 	s.InitServer("robowarsTest")
-	err := AddUserPrediction("anshu2", UserPrediction{
-		MatchID:    1,
-		Prediction: "blue",
+	err := AddUserPrediction("anshu1", UserPrediction{
+		MatchID:    19,
+		Prediction: "red",
 		Result:     false,
 	})
 	if err != nil {
@@ -16,7 +16,7 @@ func TestAddUserPrediction(t *testing.T) {
 
 func TestReadUserPredictions(t *testing.T) {
 	s.InitServer("robowarsTest")
-	d := ReadUserPredictions("anshu2")
+	d := ReadUserPredictions("anshu1")
 	if d == nil {
 		t.Fail()
 		return

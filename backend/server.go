@@ -37,6 +37,7 @@ func getHandler() http.Handler {
 	router.HandleFunc("/user/change/password", DemoFuncHandler).Methods("POST")
 	router.HandleFunc("/user/login", PostUserLogin).Methods("POST")
 	router.HandleFunc("/user/{username}/details", GetUserDetails).Methods("GET")
+	router.HandleFunc("/user/{username}/matches", GetUserMatchDetails).Methods("GET")
 
 	//Operations Related to matches
 	router.HandleFunc("/match/new", PostMatchNew).Methods("POST")
@@ -45,7 +46,6 @@ func getHandler() http.Handler {
 	router.HandleFunc("/match/{id}/status", PostMatchStatus).Methods("POST")
 	router.HandleFunc("/match/{id}/details", GetMatchIdDetails).Methods("GET")
 	router.HandleFunc("/match/all", GetMatchAll).Methods("GET")
-	router.HandleFunc("/match/display", DemoFuncHandler).Methods("GET") //TODO: Implement this functionality 4 matches previous,current and next
 
 	//Operations Related to Bots
 	router.HandleFunc("/bot/new", PostBotNew).Methods("POST")
@@ -54,8 +54,13 @@ func getHandler() http.Handler {
 	router.HandleFunc("/bot/all", GetBotAll).Methods("GET")
 	router.HandleFunc("/bot/{id}", GetBotID).Methods("GET")
 
+	/**
+	 TODO when the match status update the calculate points for every user, update current matchCount to get the current match, calculate the leaderboard
+	TODO add leser board to server
+	*/
+
 	//Operations Related to Betting
-	router.HandleFunc("/bet", DemoFuncHandler).Methods("POST")
+	router.HandleFunc("/bet", PostBet).Methods("POST")
 
 	//For LiveLeader board websocket
 	router.HandleFunc("/leaderboard", DemoFuncHandler).Methods("GET")

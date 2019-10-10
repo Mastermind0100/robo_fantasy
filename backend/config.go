@@ -11,6 +11,7 @@ type Config struct {
 	MatchCount   int
 	BotCount     int
 	CurrentMatch int
+	Point        int
 }
 
 func GetConfig() {
@@ -28,5 +29,6 @@ func GetConfig() {
 	if err != nil {
 		log.WithField("err", err).Error("Can't read config document from the database")
 	}
+	conf.Point = 1
 	s.config = conf
 }
