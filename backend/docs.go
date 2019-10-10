@@ -236,7 +236,7 @@ package main
 @apiSuccess {string} red Red Team Name
 @apiSuccess {string} blue Blue Team name
 @apiSuccess {string="red","blue","none"} prediction Prediction for team color
-@apiSuccess {boolean} result Result true or false
+@apiSuccess {Number=0,1,2} result Result 0:upcoming,1:red,2:blue
 
 @apiSuccessExample {json} Matches for the user:
 {"data":[{"red":"RED1","blue":"BLUE1","prediction":"blue","result":2},{"red":"RED2","blue":"BLUE2","prediction":"blue","result":2},{"red":"RED3","blue":"BLUE3","prediction":"none","result":0}]}
