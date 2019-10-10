@@ -19,6 +19,7 @@ type Server struct {
 	UserPointMap map[string]int
 	Matches      map[int]Match
 	ranking      []UserPoint
+	latestMatch  Match
 }
 
 func DemoFuncHandler(w http.ResponseWriter, _ *http.Request) {

@@ -33,3 +33,13 @@ func TestReadAllUsersPredictions(t *testing.T) {
 	}
 	t.Log(d)
 }
+
+func TestReadUserPredictionsMap(t *testing.T) {
+	s.InitServer("robowarsTest")
+	d := ReadUserPredictionsMap("anshu1")
+	if d == nil {
+		t.Fail()
+		return
+	}
+	t.Log(d)
+}

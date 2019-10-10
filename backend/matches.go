@@ -200,6 +200,8 @@ func PostMatchNew(w http.ResponseWriter, r *http.Request) {
 	res.Status = 0
 	p, _ := json.Marshal(&res)
 	_, _ = w.Write(p)
+
+	s.Matches = GetAllMatchMap()
 	return
 }
 
@@ -282,6 +284,7 @@ func PostMatchStatus(w http.ResponseWriter, r *http.Request) {
 
 func PerformPostStatusTasks() {
 	s.Matches = GetAllMatchMap()
+	s.latestMatch = *GetLatestMatch()
 	CalculateUserPoints()
 	CalculateRank()
 	CalculateLeaderBoard()
@@ -392,4 +395,24 @@ func GetMatchAll(w http.ResponseWriter, r *http.Request) {
 	p, _ := json.Marshal(&res)
 	_, _ = w.Write(p)
 	return
+}
+
+func GetLatestMatch() *Match {
+	var m Match
+	d := GetAllMatchMap()
+	if d != nil {
+		n := make([]int, len(d))
+		i := 0
+		for k := range d {
+			n[i] = k
+		}
+		sort.Ints(n)
+		for i, _ = range n {
+			if d[i].Status == StatusUpcoming {
+				break
+			}
+		}
+		m = d[i]
+	}
+	return &m
 }
