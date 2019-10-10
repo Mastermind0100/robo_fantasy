@@ -66,3 +66,17 @@ func TestDeleteMatch(t *testing.T) {
 	}
 	s.Shutdown()
 }
+
+func TestGetAllMatchMap(t *testing.T) {
+	s.InitServer("robowarsTest")
+	m := GetAllMatchMap()
+
+	if m== nil {
+		t.Fail()
+	}
+	t.Log(m)
+}
+
+func TestCalculateLeaderBoard(t *testing.T){
+	CalculateLeaderBoard()
+}
