@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
@@ -314,6 +315,7 @@ type UserMatchData struct {
 	Blue       string `json:"blue"`
 	Prediction string `json:"prediction"`
 	Result     int    `json:"result"`
+	MatchID    int    `json:"matchid"`
 }
 
 func GetUserMatchDetails(w http.ResponseWriter, r *http.Request) {
@@ -346,12 +348,18 @@ func GetUserMatchDetails(w http.ResponseWriter, r *http.Request) {
 			Blue:       s.Matches[id].BlueTeam,
 			Prediction: string(p.Prediction),
 			Result:     int(s.Matches[id].Status),
+			MatchID:    id,
 		}
 		if md.Prediction == "" {
 			md.Prediction = "none"
 		}
 		umd.Data = append(umd.Data, md)
 	}
+	for i := len(umd.Data)/2 - 1; i >= 0; i-- {
+		opp := len(umd.Data) - 1 - i
+		umd.Data[i], umd.Data[opp] = umd.Data[opp], umd.Data[i]
+	}
+	fmt.Println(umd.Data)
 
 	p, _ := json.Marshal(&umd)
 	_, _ = w.Write(p)
@@ -375,6 +383,14 @@ func GetUserLeaderBoard(w http.ResponseWriter, r *http.Request) {
 	}
 
 	p, _ := json.Marshal(&ulb)
+	_, _ = w.Write(p)
+	return
+}
+
+func GetLeaderBoard(w http.ResponseWriter, r *http.Request) {
+	l := s.leaderboard
+
+	p, _ := json.Marshal(l)
 	_, _ = w.Write(p)
 	return
 }

@@ -69,7 +69,7 @@ func getHandler() http.Handler {
 	router.HandleFunc("/bet", PostBet).Methods("POST")
 
 	//For LiveLeader board websocket
-	router.HandleFunc("/leaderboard", DemoFuncHandler).Methods("GET")
+	router.HandleFunc("/leaderboard", GetLeaderBoard).Methods("GET")
 
 	handler := handlers.CORS(headersOk, originsOk, methodsOk)(router)
 	return handler
