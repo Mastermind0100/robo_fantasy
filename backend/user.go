@@ -11,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
+	"sort"
 )
 
 // User struct for the user
@@ -125,7 +126,6 @@ func UpdateUser(au *AuthUser) error {
 
 	userCollection := s.db.Collection("users")
 	filter := bson.D{{"userdetails.ciusername", au.UserDetails.CIUsername}}
-	print(au.UserDetails.CIUsername)
 	update := bson.D{{"$set", bson.D{
 		{"userdetails.firstname", au.UserDetails.FirstName},
 		{"userdetails.lastname", au.UserDetails.LastName},
@@ -314,8 +314,19 @@ type UserMatchData struct {
 	Blue       string `json:"blue"`
 	Prediction string `json:"prediction"`
 	Result     int    `json:"result"`
+	MatchID    int    `json:"matchid"`
 }
+type UserMatchDatas []UserMatchData
 
+func (u UserMatchDatas) Len() int {
+	return len(u)
+}
+func (u UserMatchDatas) Swap(i, j int) {
+	u[i], u[j] = u[j], u[i]
+}
+func (u UserMatchDatas) Less(i, j int) bool {
+	return u[i].MatchID > u[j].MatchID
+}
 func GetUserMatchDetails(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	username := vars["username"]
@@ -329,6 +340,7 @@ func GetUserMatchDetails(w http.ResponseWriter, r *http.Request) {
 			Red:        s.latestMatch.RedTeam,
 			Blue:       s.latestMatch.BlueTeam,
 			Prediction: "none",
+			MatchID:    s.latestMatch.MatchID,
 			Result:     int(StatusUpcoming),
 		}
 		umd.Data = append(umd.Data, md)
@@ -346,12 +358,15 @@ func GetUserMatchDetails(w http.ResponseWriter, r *http.Request) {
 			Blue:       s.Matches[id].BlueTeam,
 			Prediction: string(p.Prediction),
 			Result:     int(s.Matches[id].Status),
+			MatchID:    id,
 		}
 		if md.Prediction == "" {
 			md.Prediction = "none"
 		}
 		umd.Data = append(umd.Data, md)
 	}
+
+	sort.Sort(UserMatchDatas(umd.Data))
 
 	p, _ := json.Marshal(&umd)
 	_, _ = w.Write(p)
@@ -375,6 +390,18 @@ func GetUserLeaderBoard(w http.ResponseWriter, r *http.Request) {
 	}
 
 	p, _ := json.Marshal(&ulb)
+	_, _ = w.Write(p)
+	return
+}
+
+type LeaderBoardResponse struct {
+	Data []UserPoint `json:"data"`
+}
+
+func GetLeaderBoard(w http.ResponseWriter, r *http.Request) {
+	l := s.leaderboard
+	res := LeaderBoardResponse{Data: l}
+	p, _ := json.Marshal(res)
 	_, _ = w.Write(p)
 	return
 }
