@@ -1,5 +1,6 @@
-var data = {
-    "topten": [
+
+    var data = {
+    "data": [
         {
             "user": {
                 "firsName": "abhijay",
@@ -43,9 +44,9 @@ var data = {
     ]
 }
 
-print(data.topten[0].user.firsName);
-print(data.topten[0].points);
+console.log(data.data[0].user.firsName);
+console.log(data.data[0].points);
 
-print(data.topten[1].user.firsName);
-print(data.topten[1].points);
+console.log(data.data[1].user.firsName);
+console.log(data.data[1].points);
 
