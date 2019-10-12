@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>Input matches</title>
+    </head>
+    <body  style="background-color: #303030">
+        <div class="container"  style="color: #00ccff">
+        <h1>Enter Team Names</h1>            
+        <form method="POST" action = "http://robo.smoketrees.dev">
+            <div class="form-row">
+                    <div class="form-group">
+                            <label for="category">Category</label>
+                            <div class="form-check">
+                                <input name="category" class="form-check-input" type="radio" id="exampleRadios1" value="15" checked>
+                                    <label class="form-check-label" for="option1" style="color: white">
+                                        15kg
+                                    </label>
+                            </div>
+                            <div class="form-check">
+                                <input name="category" class="form-check-input" type="radio"  id="exampleRadios1" value="30" >
+                                    <label class="form-check-label" for="option2" style="color: white">
+                                        30kg
+                                    </label>
+                            </div>
+                            <div class="form-check">
+                                <input name="category" class="form-check-input" type="radio" id="exampleRadios1" value="60">
+                                    <label class="form-check-label" for="option3" style="color: white">
+                                        60kg
+                                    </label>
+                            </div>
+                        </div>    
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputState">Team Red</label>
+                    <input  name="red" class="form-control" id="bTeam" placeholder="Team">
+                </div>
+                <div class="form-group col-md-6">
+                        <label for="inputState">Team Blue</label>
+                        <input  name="blue" class="form-control" id="rTeam" placeholder="Team">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    </body>
+</html>

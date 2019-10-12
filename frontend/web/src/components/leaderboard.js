@@ -1,77 +1,56 @@
 import React from 'react';
-import {Table} from 'react-bootstrap';
+import {Table, Toast} from 'react-bootstrap';
 import './style.css';
+import test from './test.js'
 
 class leaderboard extends React.Component {
     constructor(props){
         super(props);
-        this.state = {}
+        this.state = {
+            data : [],
+            isLoaded : false,
+        }
     }
+        
+    componentDidMount() {
+        fetch('http://robo.smoketrees.dev/leaderboard').then(res => res.json())
+        .then(json=> {
+            console.log(json)
+            this.setState({
+                isLoaded: true,
+                data: json.data,
+            })
+        })
+    };
 
     render() {
+
+        var {isLoaded,data}=this.state;
+
+        if(!isLoaded){
+            return <h1>loading....</h1>
+        }
+
+        else{
         return(
             <Table striped bordered hover variant="dark" align="center" border="primary" style={{width:'90%'}}>
                 <thead>
                     <tr>
-                    <th>#</th>
-                    <th>First Name</th>
+                    <th>Rank</th>
+                    <th>User Name</th>
                     <th>Points</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                     <td>1</td>
-                    <td>Mark</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>3</td>
-                    <td>Jacob</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>4</td>
-                    <td>Jacob</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>5</td>
-                    <td>Jacob</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>6</td>
-                    <td>Jacob</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>7</td>
-                    <td>Jacob</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>8</td>
-                    <td>Jacob</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>9</td>
-                    <td>Jacob</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>10</td>
-                    <td>Jacob</td>
-                    <td>@fat</td>
+                    <td>{this.state.data[0].user.username}</td>
+                    <td>{this.state.data[0].points}</td>
                     </tr>
                 </tbody>
             </Table>
         )
+        }
     }
 }
 
