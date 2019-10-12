@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+
+  backend:
+    image: achhapolia10/robowars:latest
+    ports:
+      - 80
+    depends_on:
+      - mongo
+    restart: always
+    environment:
+      - VIRTUAL_HOST=robo.smoketrees.dev
+
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - /home/anshuman/mongodbdata/db:/data/db
+    restart: always

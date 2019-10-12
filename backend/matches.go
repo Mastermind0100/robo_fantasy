@@ -202,6 +202,7 @@ func PostMatchNew(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(p)
 
 	s.Matches = GetAllMatchMap()
+	s.latestMatch = *GetLatestMatch()
 	return
 }
 
@@ -231,6 +232,11 @@ func GetMatchDelete(w http.ResponseWriter, r *http.Request) {
 	res.Status = 0
 	p, _ := json.Marshal(&res)
 	_, _ = w.Write(p)
+
+	s.mux.Lock()
+	PerformPostStatusTasks()
+	s.mux.Unlock()
+
 	return
 }
 
@@ -399,20 +405,23 @@ func GetMatchAll(w http.ResponseWriter, r *http.Request) {
 
 func GetLatestMatch() *Match {
 	var m Match
-	d := GetAllMatchMap()
+	d := s.Matches
 	if d != nil {
 		n := make([]int, len(d))
 		i := 0
-		for k := range d {
+		for k, _ := range d {
 			n[i] = k
+			i++
 		}
 		sort.Ints(n)
-		for i, _ = range n {
+		for _, i = range n {
 			if d[i].Status == StatusUpcoming {
 				break
 			}
 		}
-		m = d[i]
+		if len(d) > 0 {
+			m = d[i]
+		}
 	}
 	return &m
 }

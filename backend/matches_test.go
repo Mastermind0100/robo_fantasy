@@ -80,3 +80,9 @@ func TestGetAllMatchMap(t *testing.T) {
 func TestCalculateLeaderBoard(t *testing.T) {
 	CalculateLeaderBoard()
 }
+
+func TestGetLatestMatch(t *testing.T) {
+	s.InitServer("robowarsTest")
+	m := GetLatestMatch()
+	t.Log(m)
+}
